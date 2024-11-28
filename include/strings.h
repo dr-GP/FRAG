@@ -978,6 +978,8 @@ extern const u8 gText_NoMoreRoomForThis[];
 extern const u8 gText_ThrowInPremierBall[];
 extern const u8 gText_ThrowInPremierBalls[];
 
+extern const u8 gText_Nickname[];
+
 // pokedex_screen
 extern const u8 gText_PokedexTableOfContents[];
 extern const u8 gText_PickOK[];
