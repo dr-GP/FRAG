@@ -450,3 +450,8 @@ PalletTown_EventScript_SignLadyStartShowSign::
 	call PalletTown_EventScript_SignLadyShowSign
 	release
 	end
+
+PalletTown_EventScript_ItemRepel::
+	finditem ITEM_REPEL
+	end
+	
