@@ -713,7 +713,6 @@ extern const u8 gText_PpUp_3000[];
 
 // script_menu
 extern const u8 Text_AccessWhichPC[];
-extern const u8 gText_SomeoneSPc[];
 extern const u8 gText_BillSPc[];
 extern const u8 gText_SPc[];
 extern const u8 gText_HallOfFame_2[];

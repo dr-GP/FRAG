@@ -19,7 +19,7 @@
 
 struct MultichoiceListStruct
 {
-    const struct MenuAction * list;
+    const struct MenuAction *list;
     u8 count;
 };
 
@@ -37,597 +37,518 @@ static bool8 PicboxWait(void);
 static void DestroyScriptMenuWindow(u8 windowId);
 static u8 CreateWindowFromRect(u8 left, u8 top, u8 width, u8 height);
 
-
 static const struct MenuAction sMultichoiceList_YesNo[] = {
-    { gText_Yes },
-    { gText_No }
-};
+    {gText_Yes},
+    {gText_No}};
 
 static const struct MenuAction sMultichoiceList_TrainerCardIconTint[] = {
-    { gText_Normal },
-    { gText_Black },
-    { gText_Pink },
-    { gText_Sepia }
-};
+    {gText_Normal},
+    {gText_Black},
+    {gText_Pink},
+    {gText_Sepia}};
 
 static const struct MenuAction sMultichoiceList_HOF_Quit[] = {
-    { gText_HallOfFame },
-    { gText_Quit }
-};
+    {gText_HallOfFame},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_Eggs_Quit[] = {
-    { gText_Eggs },
-    { gText_Quit }
-};
+    {gText_Eggs},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_Victories_Quit[] = {
-    { gText_Victories },
-    { gText_Quit }
-};
+    {gText_Victories},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_HOF_Eggs_Quit[] = {
-    { gText_HallOfFame },
-    { gText_Eggs },
-    { gText_Quit }
-};
+    {gText_HallOfFame},
+    {gText_Eggs},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_HOF_Victories_Quit[] = {
-    { gText_HallOfFame },
-    { gText_Victories },
-    { gText_Quit }
-};
+    {gText_HallOfFame},
+    {gText_Victories},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_Eggs_Victories_Quit[] = {
-    { gText_Eggs },
-    { gText_Victories },
-    { gText_Quit }
-};
+    {gText_Eggs},
+    {gText_Victories},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_HOF_Eggs_Victories_Quit[] = {
-    { gText_HallOfFame },
-    { gText_Eggs },
-    { gText_Victories },
-    { gText_Quit }
-};
+    {gText_HallOfFame},
+    {gText_Eggs},
+    {gText_Victories},
+    {gText_Quit}};
 
 static const struct MenuAction sMultichoiceList_TrainerSchoolWhiteboard[] = {
-    { gText_Slp },
-    { gText_Psn },
-    { gText_Par },
-    { gText_Brn },
-    { gText_Frz },
-    { gOtherText_Exit }
-};
+    {gText_Slp},
+    {gText_Psn},
+    {gText_Par},
+    {gText_Brn},
+    {gText_Frz},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_YesNoInfo[] = {
-    { gText_Yes },
-    { gText_No },
-    { gText_Info }
-};
+    {gText_Yes},
+    {gText_No},
+    {gText_Info}};
 
 static const struct MenuAction sMultichoiceList_SingleDoubleMultiInfoExit[] = {
-    { gText_SingleBattle },
-    { gText_DoubleBattle },
-    { gText_MultiBattle },
-    { gText_Info },
-    { gOtherText_Exit }
-};
+    {gText_SingleBattle},
+    {gText_DoubleBattle},
+    {gText_MultiBattle},
+    {gText_Info},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_YesNoInfo2[] = {
-    { gText_Yes },
-    { gText_No },
-    { gText_Info }
-};
+    {gText_Yes},
+    {gText_No},
+    {gText_Info}};
 
 static const struct MenuAction sMultichoiceList_ChallengeInfoExit[] = {
-    { gText_MakeAChallenge },
-    { gText_Info_2 },
-    { gOtherText_Exit }
-};
+    {gText_MakeAChallenge},
+    {gText_Info_2},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_RooftopB1F[] = {
-    { gText_Rooftop },
-    { gText_B1F },
-    { gOtherText_Exit }
-};
+    {gText_Rooftop},
+    {gText_B1F},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Helix[] = {
-    { gText_HelixFossil },
-    { gOtherText_Exit }
-};
+    {gText_HelixFossil},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Dome[] = {
-    { gText_DomeFossil },
-    { gOtherText_Exit }
-};
+    {gText_DomeFossil},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Amber[] = {
-    { gText_OldAmber },
-    { gOtherText_Exit }
-};
+    {gText_OldAmber},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_HelixAmber[] = {
-    { gText_HelixFossil },
-    { gText_OldAmber },
-    { gOtherText_Exit }
-};
+    {gText_HelixFossil},
+    {gText_OldAmber},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_DomeAmber[] = {
-    { gText_DomeFossil },
-    { gText_OldAmber },
-    { gOtherText_Exit }
-};
+    {gText_DomeFossil},
+    {gText_OldAmber},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_CeladonVendingMachine[] = {
-    { gText_FreshWater_200 },
-    { gText_SodaPop_300 },
-    { gText_Lemonade_350 },
-    { gOtherText_Exit }
-};
+    {gText_FreshWater_200},
+    {gText_SodaPop_300},
+    {gText_Lemonade_350},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_GameCornerTMPrizes[] = {
-    { gText_Tm13_4000Coins },
-    { gText_Tm23_3500Coins },
-    { gText_Tm24_4000Coins },
-    { gText_Tm30_4500Coins },
-    { gText_Tm35_4000Coins },
-    { gText_NoThanks_2 }
-};
+    {gText_Tm13_4000Coins},
+    {gText_Tm23_3500Coins},
+    {gText_Tm24_4000Coins},
+    {gText_Tm30_4500Coins},
+    {gText_Tm35_4000Coins},
+    {gText_NoThanks_2}};
 
 static const struct MenuAction sMultichoiceList_GameCornerBattleItemPrizes[] = {
-    { gText_SmokeBall_800Coins },
-    { gText_MiracleSeed_1000Coins },
-    { gText_Charcoal_1000Coins },
-    { gText_MysticWater_1000Coins },
-    { gText_YellowFlute_1600Coins },
-    { gText_NoThanks_2 }
-};
+    {gText_SmokeBall_800Coins},
+    {gText_MiracleSeed_1000Coins},
+    {gText_Charcoal_1000Coins},
+    {gText_MysticWater_1000Coins},
+    {gText_YellowFlute_1600Coins},
+    {gText_NoThanks_2}};
 
 static const struct MenuAction sMultichoiceList_GameCornerCoinPurchaseCounter[] = {
-    { gText_50Coins_1000 },
-    { gText_500Coins_10000 },
-    { gOtherText_Exit }
-};
+    {gText_50Coins_1000},
+    {gText_500Coins_10000},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Excellent_NotSoBad[] = {
-    { gText_Excellent },
-    { gText_NotSoBad }
-};
+    {gText_Excellent},
+    {gText_NotSoBad}};
 
 static const struct MenuAction sMultichoiceList_RightLeft[] = {
-    { gText_Right },
-    { gText_Left }
-};
+    {gText_Right},
+    {gText_Left}};
 
 static const struct MenuAction sMultichoiceList_DeptStoreElevator[] = {
-    { gText_5F_2 },
-    { gText_4F_2 },
-    { gText_3F_2 },
-    { gText_2F_2 },
-    { gText_1F_2 },
-    { gOtherText_Exit }
-};
+    {gText_5F_2},
+    {gText_4F_2},
+    {gText_3F_2},
+    {gText_2F_2},
+    {gText_1F_2},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlFreshWater[] = {
-    { gText_FreshWater },
-    { gOtherText_Exit }
-};
+    {gText_FreshWater},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlSodaPop[] = {
-    { gText_SodaPop },
-    { gOtherText_Exit }
-};
+    {gText_SodaPop},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlFreshWaterSodaPop[] = {
-    { gText_FreshWater },
-    { gText_SodaPop },
-    { gOtherText_Exit }
-};
+    {gText_FreshWater},
+    {gText_SodaPop},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlLemonade[] = {
-    { gText_Lemonade },
-    { gOtherText_Exit }
-};
+    {gText_Lemonade},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlFreshWaterLemonade[] = {
-    { gText_FreshWater },
-    { gText_Lemonade },
-    { gOtherText_Exit }
-};
+    {gText_FreshWater},
+    {gText_Lemonade},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlSodaPopLemonade[] = {
-    { gText_SodaPop },
-    { gText_Lemonade },
-    { gOtherText_Exit }
-};
+    {gText_SodaPop},
+    {gText_Lemonade},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_ThirstyGirlFreshWaterSodaPopLemonade[] = {
-    { gText_FreshWater },
-    { gText_SodaPop },
-    { gText_Lemonade },
-    { gOtherText_Exit }
-};
+    {gText_FreshWater},
+    {gText_SodaPop},
+    {gText_Lemonade},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_0[] = {
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_1[] = {
-    { gText_RedShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_RedShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_2[] = {
-    { gText_YellowShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_YellowShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_3[] = {
-    { gText_RedShard },
-    { gText_YellowShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_RedShard},
+    {gText_YellowShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_4[] = {
-    { gText_BlueShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_BlueShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_5[] = {
-    { gText_RedShard },
-    { gText_BlueShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_RedShard},
+    {gText_BlueShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_6[] = {
-    { gText_YellowShard },
-    { gText_BlueShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_YellowShard},
+    {gText_BlueShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Unref_Shards_7[] = {
-    { gText_RedShard },
-    { gText_YellowShard },
-    { gText_BlueShard },
-    { gText_GreenShard },
-    { gOtherText_Exit }
-};
+    {gText_RedShard},
+    {gText_YellowShard},
+    {gText_BlueShard},
+    {gText_GreenShard},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Eeveelutions[] = {
-    { gText_Eevee },
-    { gText_Flareon },
-    { gText_Jolteon },
-    { gText_Vaporeon },
-    { gText_QuitLooking }
-};
+    {gText_Eevee},
+    {gText_Flareon},
+    {gText_Jolteon},
+    {gText_Vaporeon},
+    {gText_QuitLooking}};
 
 static const struct MenuAction sMultichoiceList_BikeShop[] = {
-    { gText_Bicycle_Price },
-    { gText_NoThanks }
-};
+    {gText_Bicycle_Price},
+    {gText_NoThanks}};
 
 static const struct MenuAction sMultichoiceList_GameCornerPokemonPrizes[] = {
 #if defined(FIRERED)
-    { gText_Abra_180Coins },
-    { gText_Clefairy_500Coins },
-    { gText_Dratini_2800Coins },
-    { gText_Scyther_5500Coins },
-    { gText_Porygon_9999Coins },
+    {gText_Abra_180Coins},
+    {gText_Clefairy_500Coins},
+    {gText_Dratini_2800Coins},
+    {gText_Scyther_5500Coins},
+    {gText_Porygon_9999Coins},
 #elif defined(LEAFGREEN)
-    { gText_Abra_120Coins },
-    { gText_Clefairy_750Coins },
-    { gText_Pinsir_2500Coins },
-    { gText_Dratini_4600Coins },
-    { gText_Porygon_6500Coins },
+    {gText_Abra_120Coins},
+    {gText_Clefairy_750Coins},
+    {gText_Pinsir_2500Coins},
+    {gText_Dratini_4600Coins},
+    {gText_Porygon_6500Coins},
 #endif
-    { gText_NoThanks_2 }
-};
+    {gText_NoThanks_2}};
 
 static const struct MenuAction sMultichoiceList_TradeCenter_Colosseum[] = {
-    { gText_TradeCenter },
-    { gText_Colosseum },
-    { gOtherText_Exit }
-};
+    {gText_TradeCenter},
+    {gText_Colosseum},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Link_Wireless[] = {
-    { gText_GameLinkCable },
-    { gText_Wireless },
-    { gOtherText_Exit }
-};
+    {gText_GameLinkCable},
+    {gText_Wireless},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_RocketHideoutElevator[] = {
-    { gText_B1F },
-    { gText_B2F },
-    { gText_B4F },
-    { gOtherText_Exit }
-};
+    {gText_B1F},
+    {gText_B2F},
+    {gText_B4F},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_LinkedDirectUnion[] = {
-    { gText_LinkedGamePlay },
-    { gText_DirectCorner },
-    { gText_UnionRoom },
-    { gOtherText_Quit }
-};
+    {gText_LinkedGamePlay},
+    {gText_DirectCorner},
+    {gText_UnionRoom},
+    {gOtherText_Quit}};
 
 static const struct MenuAction sMultichoiceList_Island23[] = {
-    { gText_TwoIsland },
-    { gText_ThreeIsland },
-    { gOtherText_Exit }
-};
+    {gText_TwoIsland},
+    {gText_ThreeIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Island13[] = {
-    { gText_OneIsland },
-    { gText_ThreeIsland },
-    { gOtherText_Exit }
-};
+    {gText_OneIsland},
+    {gText_ThreeIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Island12[] = {
-    { gText_OneIsland },
-    { gText_TwoIsland },
-    { gOtherText_Exit }
-};
+    {gText_OneIsland},
+    {gText_TwoIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_TradeColosseumCrush[] = {
-    { gText_TradeCenter },
-    { gText_Colosseum_2 },
-    { gText_BerryCrush },
-    { gOtherText_Exit }
-};
+    {gText_TradeCenter},
+    {gText_Colosseum_2},
+    {gText_BerryCrush},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_48[] = {
-    { gText_EmptyLinkService1 },
-    { gText_EmptyLinkService2 },
-    { gOtherText_Exit }
-};
+    {gText_EmptyLinkService1},
+    {gText_EmptyLinkService2},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_TradeColosseum_2[] = {
-    { gText_TradeCenter },
-    { gText_Colosseum_2 },
-    { gOtherText_Exit }
-};
+    {gText_TradeCenter},
+    {gText_Colosseum_2},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_PokejumpDodrio[] = {
-    { gText_PokemonJump },
-    { gText_DodrioBerryPicking },
-    { gOtherText_Exit }
-};
+    {gText_PokemonJump},
+    {gText_DodrioBerryPicking},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Mushrooms[] = {
-    { gText_2Tinymushrooms },
-    { gText_1BigMushroom }
-};
+    {gText_2Tinymushrooms},
+    {gText_1BigMushroom}};
 
 static const struct MenuAction sMultichoiceList_TradeColosseumBlankCrush[] = {
-    { gText_TradeCenter },
-    { gText_Colosseum_2 },
-    { gText_RecordCorner },
-    { gText_BerryCrush },
-    { gOtherText_Exit }
-};
+    {gText_TradeCenter},
+    {gText_Colosseum_2},
+    {gText_RecordCorner},
+    {gText_BerryCrush},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_TradeColosseumBlank[] = {
-    { gText_TradeCenter },
-    { gText_Colosseum_2 },
-    { gText_RecordCorner },
-    { gOtherText_Exit }
-};
+    {gText_TradeCenter},
+    {gText_Colosseum_2},
+    {gText_RecordCorner},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeviiNavel[] = {
-    { gText_SeviiIslands },
-    { gText_NavelRock },
-    { gOtherText_Exit }
-};
+    {gText_SeviiIslands},
+    {gText_NavelRock},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeviiBirth[] = {
-    { gText_SeviiIslands },
-    { gText_BirthIsland },
-    { gOtherText_Exit }
-};
+    {gText_SeviiIslands},
+    {gText_BirthIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeviiNavelBirth[] = {
-    { gText_SeviiIslands },
-    { gText_NavelRock },
-    { gText_BirthIsland },
-    { gOtherText_Exit }
-};
+    {gText_SeviiIslands},
+    {gText_NavelRock},
+    {gText_BirthIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Seagallop123[] = {
-    { gText_OneIsland },
-    { gText_TwoIsland },
-    { gText_ThreeIsland },
-    { gOtherText_Exit }
-};
+    {gText_OneIsland},
+    {gText_TwoIsland},
+    {gText_ThreeIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeagallopV23[] = {
-    { gText_Vermilion },
-    { gText_TwoIsland },
-    { gText_ThreeIsland },
-    { gOtherText_Exit }
-};
+    {gText_Vermilion},
+    {gText_TwoIsland},
+    {gText_ThreeIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeagallopV13[] = {
-    { gText_Vermilion },
-    { gText_OneIsland },
-    { gText_ThreeIsland },
-    { gOtherText_Exit }
-};
+    {gText_Vermilion},
+    {gText_OneIsland},
+    {gText_ThreeIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeagallopV12[] = {
-    { gText_Vermilion },
-    { gText_OneIsland },
-    { gText_TwoIsland },
-    { gOtherText_Exit }
-};
+    {gText_Vermilion},
+    {gText_OneIsland},
+    {gText_TwoIsland},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_SeagallopVermilion[] = {
-    { gText_Vermilion },
-    { gOtherText_Exit }
-};
+    {gText_Vermilion},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_62[] = {
-    { gText_Multichoice_Empty1 },
-    { gText_Multichoice_Empty2 },
-    { gOtherText_Exit }
-};
+    {gText_Multichoice_Empty1},
+    {gText_Multichoice_Empty2},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_JoinOrLead[] = {
-    { gText_JoinGroup },
-    { gText_BecomeLeader },
-    { gOtherText_Exit }
-};
+    {gText_JoinGroup},
+    {gText_BecomeLeader},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_TrainerTowerMode[] = {
-    { gOtherText_Single },
-    { gOtherText_Double },
-    { gOtherText_Knockout },
-    { gOtherText_Mixed },
-    { gOtherText_Exit }
-};
+    {gOtherText_Single},
+    {gOtherText_Double},
+    {gOtherText_Knockout},
+    {gOtherText_Mixed},
+    {gOtherText_Exit}};
 
 static const struct MenuAction sMultichoiceList_Exit[] = {
-    { gOtherText_Exit }
-};
+    {gOtherText_Exit}};
 
 static const struct MultichoiceListStruct sMultichoiceLists[] = {
-    [MULTICHOICE_YES_NO]                                     = MULTICHOICE(sMultichoiceList_YesNo),
-    [MULTICHOICE_EEVEELUTIONS]                               = MULTICHOICE(sMultichoiceList_Eeveelutions),
-    [MULTICHOICE_TRAINER_CARD_ICON_TINT]                     = MULTICHOICE(sMultichoiceList_TrainerCardIconTint),
-    [MULTICHOICE_HOF_QUIT]                                   = MULTICHOICE(sMultichoiceList_HOF_Quit),
-    [MULTICHOICE_EGGS_QUIT]                                  = MULTICHOICE(sMultichoiceList_Eggs_Quit),
-    [MULTICHOICE_VICTORIES_QUIT]                             = MULTICHOICE(sMultichoiceList_Victories_Quit),
-    [MULTICHOICE_HOF_EGGS_QUIT]                              = MULTICHOICE(sMultichoiceList_HOF_Eggs_Quit),
-    [MULTICHOICE_HOF_VICTORIES_QUIT]                         = MULTICHOICE(sMultichoiceList_HOF_Victories_Quit),
-    [MULTICHOICE_EGGS_VICTORIES_QUIT]                        = MULTICHOICE(sMultichoiceList_Eggs_Victories_Quit),
-    [MULTICHOICE_HOF_EGGS_VICTORIES_QUIT]                    = MULTICHOICE(sMultichoiceList_HOF_Eggs_Victories_Quit),
-    [MULTICHOICE_EXIT]                                       = MULTICHOICE(sMultichoiceList_Exit),
-    [MULTICHOICE_EXIT_2]                                     = MULTICHOICE(sMultichoiceList_Exit),
-    [MULTICHOICE_EXIT_3]                                     = MULTICHOICE(sMultichoiceList_Exit),
-    [MULTICHOICE_BIKE_SHOP]                                  = MULTICHOICE(sMultichoiceList_BikeShop),
-    [MULTICHOICE_GAME_CORNER_POKEMON_PRIZES]                 = MULTICHOICE(sMultichoiceList_GameCornerPokemonPrizes),
-    [MULTICHOICE_TRAINER_SCHOOL_WHITEBOARD]                  = MULTICHOICE(sMultichoiceList_TrainerSchoolWhiteboard),
-    [MULTICHOICE_YES_NO_INFO]                                = MULTICHOICE(sMultichoiceList_YesNoInfo),
-    [MULTICHOICE_SINGLE_DOUBLE_MULTI_INFO_EXIT]              = MULTICHOICE(sMultichoiceList_SingleDoubleMultiInfoExit),
-    [MULTICHOICE_YES_NO_INFO_2]                              = MULTICHOICE(sMultichoiceList_YesNoInfo2),
-    [MULTICHOICE_CHALLENGE_INFO_EXIT]                        = MULTICHOICE(sMultichoiceList_ChallengeInfoExit),
-    [MULTICHOICE_ROOFTOP_B1F]                                = MULTICHOICE(sMultichoiceList_RooftopB1F),
-    [MULTICHOICE_HELIX]                                      = MULTICHOICE(sMultichoiceList_Helix),
-    [MULTICHOICE_DOME]                                       = MULTICHOICE(sMultichoiceList_Dome),
-    [MULTICHOICE_AMBER]                                      = MULTICHOICE(sMultichoiceList_Amber),
-    [MULTICHOICE_HELIX_AMBER]                                = MULTICHOICE(sMultichoiceList_HelixAmber),
-    [MULTICHOICE_DOME_AMBER]                                 = MULTICHOICE(sMultichoiceList_DomeAmber),
-    [MULTICHOICE_CELADON_VENDING_MACHINE]                    = MULTICHOICE(sMultichoiceList_CeladonVendingMachine),
-    [MULTICHOICE_GAME_CORNER_COIN_PURCHASE_COUNTER]          = MULTICHOICE(sMultichoiceList_GameCornerCoinPurchaseCounter),
-    [MULTICHOICE_EXCELLENT_NOT_SO_BAD]                       = MULTICHOICE(sMultichoiceList_Excellent_NotSoBad),
-    [MULTICHOICE_RIGHT_LEFT]                                 = MULTICHOICE(sMultichoiceList_RightLeft),
-    [MULTICHOICE_GAME_CORNER_TMPRIZES]                       = MULTICHOICE(sMultichoiceList_GameCornerTMPrizes),
-    [MULTICHOICE_DEPT_STORE_ELEVATOR]                        = MULTICHOICE(sMultichoiceList_DeptStoreElevator),
-    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER]                   = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWater),
-    [MULTICHOICE_THIRSTY_GIRL_SODA_POP]                      = MULTICHOICE(sMultichoiceList_ThirstyGirlSodaPop),
-    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER_SODA_POP]          = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWaterSodaPop),
-    [MULTICHOICE_THIRSTY_GIRL_LEMONADE]                      = MULTICHOICE(sMultichoiceList_ThirstyGirlLemonade),
-    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER_LEMONADE]          = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWaterLemonade),
-    [MULTICHOICE_THIRSTY_GIRL_SODA_POP_LEMONADE]             = MULTICHOICE(sMultichoiceList_ThirstyGirlSodaPopLemonade),
+    [MULTICHOICE_YES_NO] = MULTICHOICE(sMultichoiceList_YesNo),
+    [MULTICHOICE_EEVEELUTIONS] = MULTICHOICE(sMultichoiceList_Eeveelutions),
+    [MULTICHOICE_TRAINER_CARD_ICON_TINT] = MULTICHOICE(sMultichoiceList_TrainerCardIconTint),
+    [MULTICHOICE_HOF_QUIT] = MULTICHOICE(sMultichoiceList_HOF_Quit),
+    [MULTICHOICE_EGGS_QUIT] = MULTICHOICE(sMultichoiceList_Eggs_Quit),
+    [MULTICHOICE_VICTORIES_QUIT] = MULTICHOICE(sMultichoiceList_Victories_Quit),
+    [MULTICHOICE_HOF_EGGS_QUIT] = MULTICHOICE(sMultichoiceList_HOF_Eggs_Quit),
+    [MULTICHOICE_HOF_VICTORIES_QUIT] = MULTICHOICE(sMultichoiceList_HOF_Victories_Quit),
+    [MULTICHOICE_EGGS_VICTORIES_QUIT] = MULTICHOICE(sMultichoiceList_Eggs_Victories_Quit),
+    [MULTICHOICE_HOF_EGGS_VICTORIES_QUIT] = MULTICHOICE(sMultichoiceList_HOF_Eggs_Victories_Quit),
+    [MULTICHOICE_EXIT] = MULTICHOICE(sMultichoiceList_Exit),
+    [MULTICHOICE_EXIT_2] = MULTICHOICE(sMultichoiceList_Exit),
+    [MULTICHOICE_EXIT_3] = MULTICHOICE(sMultichoiceList_Exit),
+    [MULTICHOICE_BIKE_SHOP] = MULTICHOICE(sMultichoiceList_BikeShop),
+    [MULTICHOICE_GAME_CORNER_POKEMON_PRIZES] = MULTICHOICE(sMultichoiceList_GameCornerPokemonPrizes),
+    [MULTICHOICE_TRAINER_SCHOOL_WHITEBOARD] = MULTICHOICE(sMultichoiceList_TrainerSchoolWhiteboard),
+    [MULTICHOICE_YES_NO_INFO] = MULTICHOICE(sMultichoiceList_YesNoInfo),
+    [MULTICHOICE_SINGLE_DOUBLE_MULTI_INFO_EXIT] = MULTICHOICE(sMultichoiceList_SingleDoubleMultiInfoExit),
+    [MULTICHOICE_YES_NO_INFO_2] = MULTICHOICE(sMultichoiceList_YesNoInfo2),
+    [MULTICHOICE_CHALLENGE_INFO_EXIT] = MULTICHOICE(sMultichoiceList_ChallengeInfoExit),
+    [MULTICHOICE_ROOFTOP_B1F] = MULTICHOICE(sMultichoiceList_RooftopB1F),
+    [MULTICHOICE_HELIX] = MULTICHOICE(sMultichoiceList_Helix),
+    [MULTICHOICE_DOME] = MULTICHOICE(sMultichoiceList_Dome),
+    [MULTICHOICE_AMBER] = MULTICHOICE(sMultichoiceList_Amber),
+    [MULTICHOICE_HELIX_AMBER] = MULTICHOICE(sMultichoiceList_HelixAmber),
+    [MULTICHOICE_DOME_AMBER] = MULTICHOICE(sMultichoiceList_DomeAmber),
+    [MULTICHOICE_CELADON_VENDING_MACHINE] = MULTICHOICE(sMultichoiceList_CeladonVendingMachine),
+    [MULTICHOICE_GAME_CORNER_COIN_PURCHASE_COUNTER] = MULTICHOICE(sMultichoiceList_GameCornerCoinPurchaseCounter),
+    [MULTICHOICE_EXCELLENT_NOT_SO_BAD] = MULTICHOICE(sMultichoiceList_Excellent_NotSoBad),
+    [MULTICHOICE_RIGHT_LEFT] = MULTICHOICE(sMultichoiceList_RightLeft),
+    [MULTICHOICE_GAME_CORNER_TMPRIZES] = MULTICHOICE(sMultichoiceList_GameCornerTMPrizes),
+    [MULTICHOICE_DEPT_STORE_ELEVATOR] = MULTICHOICE(sMultichoiceList_DeptStoreElevator),
+    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER] = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWater),
+    [MULTICHOICE_THIRSTY_GIRL_SODA_POP] = MULTICHOICE(sMultichoiceList_ThirstyGirlSodaPop),
+    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER_SODA_POP] = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWaterSodaPop),
+    [MULTICHOICE_THIRSTY_GIRL_LEMONADE] = MULTICHOICE(sMultichoiceList_ThirstyGirlLemonade),
+    [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER_LEMONADE] = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWaterLemonade),
+    [MULTICHOICE_THIRSTY_GIRL_SODA_POP_LEMONADE] = MULTICHOICE(sMultichoiceList_ThirstyGirlSodaPopLemonade),
     [MULTICHOICE_THIRSTY_GIRL_FRESH_WATER_SODA_POP_LEMONADE] = MULTICHOICE(sMultichoiceList_ThirstyGirlFreshWaterSodaPopLemonade),
-    [MULTICHOICE_TRADE_CENTER_COLOSSEUM]                     = MULTICHOICE(sMultichoiceList_TradeCenter_Colosseum),
-    [MULTICHOICE_LINK_WIRELESS]                              = MULTICHOICE(sMultichoiceList_Link_Wireless),
-    [MULTICHOICE_GAME_CORNER_BATTLE_ITEM_PRIZES]             = MULTICHOICE(sMultichoiceList_GameCornerBattleItemPrizes),
-    [MULTICHOICE_ROCKET_HIDEOUT_ELEVATOR]                    = MULTICHOICE(sMultichoiceList_RocketHideoutElevator),
-    [MULTICHOICE_LINKED_DIRECT_UNION]                        = MULTICHOICE(sMultichoiceList_LinkedDirectUnion),
-    [MULTICHOICE_ISLAND_23]                                  = MULTICHOICE(sMultichoiceList_Island23),
-    [MULTICHOICE_ISLAND_13]                                  = MULTICHOICE(sMultichoiceList_Island13),
-    [MULTICHOICE_ISLAND_12]                                  = MULTICHOICE(sMultichoiceList_Island12),
-    [MULTICHOICE_TRADE_COLOSSEUM_CRUSH]                      = MULTICHOICE(sMultichoiceList_TradeColosseumCrush),
-    [MULTICHOICE_48]                                         = MULTICHOICE(sMultichoiceList_48),
-    [MULTICHOICE_POKEJUMP_DODRIO]                            = MULTICHOICE(sMultichoiceList_PokejumpDodrio),
-    [MULTICHOICE_TRADE_COLOSSEUM_2]                          = MULTICHOICE(sMultichoiceList_TradeColosseum_2),
-    [MULTICHOICE_MUSHROOMS]                                  = MULTICHOICE(sMultichoiceList_Mushrooms),
-    [MULTICHOICE_TRADE_COLOSSEUM_BLANK_CRUSH]                = MULTICHOICE(sMultichoiceList_TradeColosseumBlankCrush),
-    [MULTICHOICE_TRADE_COLOSSEUM_BLANK]                      = MULTICHOICE(sMultichoiceList_TradeColosseumBlank),
-    [MULTICHOICE_SEVII_NAVEL]                                = MULTICHOICE(sMultichoiceList_SeviiNavel),
-    [MULTICHOICE_SEVII_BIRTH]                                = MULTICHOICE(sMultichoiceList_SeviiBirth),
-    [MULTICHOICE_SEVII_NAVEL_BIRTH]                          = MULTICHOICE(sMultichoiceList_SeviiNavelBirth),
-    [MULTICHOICE_SEAGALLOP_123]                              = MULTICHOICE(sMultichoiceList_Seagallop123),
-    [MULTICHOICE_SEAGALLOP_V23]                              = MULTICHOICE(sMultichoiceList_SeagallopV23),
-    [MULTICHOICE_SEAGALLOP_V13]                              = MULTICHOICE(sMultichoiceList_SeagallopV13),
-    [MULTICHOICE_SEAGALLOP_V12]                              = MULTICHOICE(sMultichoiceList_SeagallopV12),
-    [MULTICHOICE_SEAGALLOP_VERMILION]                        = MULTICHOICE(sMultichoiceList_SeagallopVermilion),
-    [MULTICHOICE_62]                                         = MULTICHOICE(sMultichoiceList_62),
-    [MULTICHOICE_JOIN_OR_LEAD]                               = MULTICHOICE(sMultichoiceList_JoinOrLead),
-    [MULTICHOICE_TRAINER_TOWER_MODE]                         = MULTICHOICE(sMultichoiceList_TrainerTowerMode),
+    [MULTICHOICE_TRADE_CENTER_COLOSSEUM] = MULTICHOICE(sMultichoiceList_TradeCenter_Colosseum),
+    [MULTICHOICE_LINK_WIRELESS] = MULTICHOICE(sMultichoiceList_Link_Wireless),
+    [MULTICHOICE_GAME_CORNER_BATTLE_ITEM_PRIZES] = MULTICHOICE(sMultichoiceList_GameCornerBattleItemPrizes),
+    [MULTICHOICE_ROCKET_HIDEOUT_ELEVATOR] = MULTICHOICE(sMultichoiceList_RocketHideoutElevator),
+    [MULTICHOICE_LINKED_DIRECT_UNION] = MULTICHOICE(sMultichoiceList_LinkedDirectUnion),
+    [MULTICHOICE_ISLAND_23] = MULTICHOICE(sMultichoiceList_Island23),
+    [MULTICHOICE_ISLAND_13] = MULTICHOICE(sMultichoiceList_Island13),
+    [MULTICHOICE_ISLAND_12] = MULTICHOICE(sMultichoiceList_Island12),
+    [MULTICHOICE_TRADE_COLOSSEUM_CRUSH] = MULTICHOICE(sMultichoiceList_TradeColosseumCrush),
+    [MULTICHOICE_48] = MULTICHOICE(sMultichoiceList_48),
+    [MULTICHOICE_POKEJUMP_DODRIO] = MULTICHOICE(sMultichoiceList_PokejumpDodrio),
+    [MULTICHOICE_TRADE_COLOSSEUM_2] = MULTICHOICE(sMultichoiceList_TradeColosseum_2),
+    [MULTICHOICE_MUSHROOMS] = MULTICHOICE(sMultichoiceList_Mushrooms),
+    [MULTICHOICE_TRADE_COLOSSEUM_BLANK_CRUSH] = MULTICHOICE(sMultichoiceList_TradeColosseumBlankCrush),
+    [MULTICHOICE_TRADE_COLOSSEUM_BLANK] = MULTICHOICE(sMultichoiceList_TradeColosseumBlank),
+    [MULTICHOICE_SEVII_NAVEL] = MULTICHOICE(sMultichoiceList_SeviiNavel),
+    [MULTICHOICE_SEVII_BIRTH] = MULTICHOICE(sMultichoiceList_SeviiBirth),
+    [MULTICHOICE_SEVII_NAVEL_BIRTH] = MULTICHOICE(sMultichoiceList_SeviiNavelBirth),
+    [MULTICHOICE_SEAGALLOP_123] = MULTICHOICE(sMultichoiceList_Seagallop123),
+    [MULTICHOICE_SEAGALLOP_V23] = MULTICHOICE(sMultichoiceList_SeagallopV23),
+    [MULTICHOICE_SEAGALLOP_V13] = MULTICHOICE(sMultichoiceList_SeagallopV13),
+    [MULTICHOICE_SEAGALLOP_V12] = MULTICHOICE(sMultichoiceList_SeagallopV12),
+    [MULTICHOICE_SEAGALLOP_VERMILION] = MULTICHOICE(sMultichoiceList_SeagallopVermilion),
+    [MULTICHOICE_62] = MULTICHOICE(sMultichoiceList_62),
+    [MULTICHOICE_JOIN_OR_LEAD] = MULTICHOICE(sMultichoiceList_JoinOrLead),
+    [MULTICHOICE_TRAINER_TOWER_MODE] = MULTICHOICE(sMultichoiceList_TrainerTowerMode),
 };
 
 // From Cool to Berries goes unused
 const u8 *const gStdStringPtrs[] = {
-    [STDSTRING_COOL]             = gText_Cool,
-    [STDSTRING_BEAUTY]           = gText_Beauty,
-    [STDSTRING_CUTE]             = gText_Cute,
-    [STDSTRING_SMART]            = gText_Smart,
-    [STDSTRING_TOUGH]            = gText_Tough,
-    [STDSTRING_COOL2]            = gText_Cool_2,
-    [STDSTRING_BEAUTY2]          = gText_Beauty_2,
-    [STDSTRING_CUTE2]            = gText_Cute_2,
-    [STDSTRING_SMART2]           = gText_Smart_2,
-    [STDSTRING_TOUGH2]           = gText_Tough_2,
-    [STDSTRING_ITEMS]            = gText_Items,
-    [STDSTRING_KEY_ITEMS]        = gText_KeyItems,
-    [STDSTRING_POKEBALLS]        = gText_PokeBalls,
-    [STDSTRING_TMHMS]            = gText_TMsAndHMs,
-    [STDSTRING_BERRIES]          = gText_Berries,
-    [STDSTRING_BOULDER_BADGE]    = gText_Boulderbadge,
-    [STDSTRING_CASCADE_BADGE]    = gText_Cascadebadge,
-    [STDSTRING_THUNDER_BADGE]    = gText_Thunderbadge,
-    [STDSTRING_RAINBOW_BADGE]    = gText_Rainbowbadge,
-    [STDSTRING_SOUL_BADGE]       = gText_Soulbadge,
-    [STDSTRING_MARSH_BADGE]      = gText_Marshbadge,
-    [STDSTRING_VOLCANO_BADGE]    = gText_Volcanobadge,
-    [STDSTRING_EARTH_BADGE]      = gText_Earthbadge,
-    [STDSTRING_COINS]            = gText_Coins_2,
-    [STDSTRING_ITEMS_POCKET]     = gText_ItemsPocket,
+    [STDSTRING_COOL] = gText_Cool,
+    [STDSTRING_BEAUTY] = gText_Beauty,
+    [STDSTRING_CUTE] = gText_Cute,
+    [STDSTRING_SMART] = gText_Smart,
+    [STDSTRING_TOUGH] = gText_Tough,
+    [STDSTRING_COOL2] = gText_Cool_2,
+    [STDSTRING_BEAUTY2] = gText_Beauty_2,
+    [STDSTRING_CUTE2] = gText_Cute_2,
+    [STDSTRING_SMART2] = gText_Smart_2,
+    [STDSTRING_TOUGH2] = gText_Tough_2,
+    [STDSTRING_ITEMS] = gText_Items,
+    [STDSTRING_KEY_ITEMS] = gText_KeyItems,
+    [STDSTRING_POKEBALLS] = gText_PokeBalls,
+    [STDSTRING_TMHMS] = gText_TMsAndHMs,
+    [STDSTRING_BERRIES] = gText_Berries,
+    [STDSTRING_BOULDER_BADGE] = gText_Boulderbadge,
+    [STDSTRING_CASCADE_BADGE] = gText_Cascadebadge,
+    [STDSTRING_THUNDER_BADGE] = gText_Thunderbadge,
+    [STDSTRING_RAINBOW_BADGE] = gText_Rainbowbadge,
+    [STDSTRING_SOUL_BADGE] = gText_Soulbadge,
+    [STDSTRING_MARSH_BADGE] = gText_Marshbadge,
+    [STDSTRING_VOLCANO_BADGE] = gText_Volcanobadge,
+    [STDSTRING_EARTH_BADGE] = gText_Earthbadge,
+    [STDSTRING_COINS] = gText_Coins_2,
+    [STDSTRING_ITEMS_POCKET] = gText_ItemsPocket,
     [STDSTRING_KEY_ITEMS_POCKET] = gText_KeyItemsPocket,
     [STDSTRING_POKEBALLS_POCKET] = gText_PokeBallsPocket,
-    [STDSTRING_TM_CASE]          = gText_TmCase,
-    [STDSTRING_BERRY_POUCH]      = gText_BerryPouch_2
-};
+    [STDSTRING_TM_CASE] = gText_TmCase,
+    [STDSTRING_BERRY_POUCH] = gText_BerryPouch_2};
 
 static const u8 *const sDescriptionPtrs_CableClub_TradeBattleCancel[] = {
     CableClub_Text_TradeMonsUsingLinkCable,
     CableClub_Text_BattleUsingLinkCable,
-    CableClub_Text_CancelSelectedItem
-};
+    CableClub_Text_CancelSelectedItem};
 
 static const u8 *const sDescriptionPtrs_WirelessCenter_TradeBattleCrushCancel[] = {
     CableClub_Text_YouMayTradeHere,
     CableClub_Text_YouMayBattleHere,
     CableClub_Text_CanMakeBerryPowder,
-    CableClub_Text_CancelSelectedItem
-};
+    CableClub_Text_CancelSelectedItem};
 
 static const u8 *const sDescriptionPtrs_WirelessCenter_TradeBattleCancel[] = {
     CableClub_Text_YouMayTradeHere,
     CableClub_Text_YouMayBattleHere,
-    CableClub_Text_CancelSelectedItem
-};
+    CableClub_Text_CancelSelectedItem};
 
 static const union AnimCmd sMuseumFossilAnim0[] = {
     ANIMCMD_FRAME(0, 10),
-    ANIMCMD_END
-};
+    ANIMCMD_END};
 
 static const union AnimCmd *const sMuseumFossilAnimCmdTable[] = {
-    sMuseumFossilAnim0
-};
+    sMuseumFossilAnim0};
 
 static const struct OamData sMuseumFossilOamData = {
     .shape = SPRITE_SHAPE(64x64),
-    .size = SPRITE_SIZE(64x64)
-};
+    .size = SPRITE_SIZE(64x64)};
 
 static const struct SpriteTemplate sMuseumFossilSprTemplate = {
     .tileTag = GFXTAG_FOSSIL,
@@ -635,8 +556,7 @@ static const struct SpriteTemplate sMuseumFossilSprTemplate = {
     .oam = &sMuseumFossilOamData,
     .anims = sMuseumFossilAnimCmdTable,
     .affineAnims = gDummySpriteAffineAnimTable,
-    .callback = SpriteCallbackDummy
-};
+    .callback = SpriteCallbackDummy};
 
 static const u16 sMuseumAerodactylSprTiles[] = INCBIN_U16("graphics/script_menu/aerodactyl_fossil.4bpp");
 static const u16 sMuseumAerodactylSprPalette[] = INCBIN_U16("graphics/script_menu/aerodactyl_fossil.gbapal");
@@ -645,24 +565,21 @@ static const u16 sMuseumKabutopsSprPalette[] = INCBIN_U16("graphics/script_menu/
 
 static const struct SpriteSheet sMuseumKabutopsSprSheets[] = {
     {sMuseumKabutopsSprTiles, sizeof(sMuseumKabutopsSprTiles), GFXTAG_FOSSIL},
-    {}
-};
+    {}};
 
 static const struct SpriteSheet sMuseumAerodactylSprSheets[] = {
     {sMuseumAerodactylSprTiles, sizeof(sMuseumAerodactylSprTiles), GFXTAG_FOSSIL},
-    {}
-};
-
+    {}};
 
 static const u8 *const sSeagallopDestStrings[] = {
     [SEAGALLOP_VERMILION_CITY] = gText_Vermilion,
-    [SEAGALLOP_ONE_ISLAND]     = gText_OneIsland,
-    [SEAGALLOP_TWO_ISLAND]     = gText_TwoIsland,
-    [SEAGALLOP_THREE_ISLAND]   = gText_ThreeIsland,
-    [SEAGALLOP_FOUR_ISLAND]    = gText_FourIsland,
-    [SEAGALLOP_FIVE_ISLAND]    = gText_FiveIsland,
-    [SEAGALLOP_SIX_ISLAND]     = gText_SixIsland,
-    [SEAGALLOP_SEVEN_ISLAND]   = gText_SevenIsland,
+    [SEAGALLOP_ONE_ISLAND] = gText_OneIsland,
+    [SEAGALLOP_TWO_ISLAND] = gText_TwoIsland,
+    [SEAGALLOP_THREE_ISLAND] = gText_ThreeIsland,
+    [SEAGALLOP_FOUR_ISLAND] = gText_FourIsland,
+    [SEAGALLOP_FIVE_ISLAND] = gText_FiveIsland,
+    [SEAGALLOP_SIX_ISLAND] = gText_SixIsland,
+    [SEAGALLOP_SEVEN_ISLAND] = gText_SevenIsland,
 };
 
 static u16 GetStringTilesWide(const u8 *str)
@@ -670,7 +587,7 @@ static u16 GetStringTilesWide(const u8 *str)
     return (GetStringWidth(FONT_NORMAL_COPY_1, str, 0) + 7) / 8;
 }
 
-static u8 GetMenuWidthFromList(const struct MenuAction * items, u8 count)
+static u8 GetMenuWidthFromList(const struct MenuAction *items, u8 count)
 {
     u16 i;
     u8 width = GetStringTilesWide(items[0].text);
@@ -708,7 +625,7 @@ static void DrawVerticalMultichoiceMenu(u8 left, u8 top, u8 mcId, u8 ignoreBpres
     DrawVerticalMultichoiceMenuInternal(left, top, mcId, ignoreBpress, initPos, sMultichoiceLists[mcId].list, sMultichoiceLists[mcId].count);
 }
 
- void DrawVerticalMultichoiceMenuInternal(u8 left, u8 top, u8 mcId, u8 ignoreBpress, u8 initPos, const struct MenuAction *list, u8 count)
+void DrawVerticalMultichoiceMenuInternal(u8 left, u8 top, u8 mcId, u8 ignoreBpress, u8 initPos, const struct MenuAction *list, u8 count)
 {
     s32 i;
     s32 strWidth;
@@ -733,9 +650,7 @@ static void DrawVerticalMultichoiceMenu(u8 left, u8 top, u8 mcId, u8 ignoreBpres
         height = GetMCWindowHeight(count);
         windowId = CreateWindowFromRect(left, top, width, height);
         SetStandardWindowBorderStyle(windowId, FALSE);
-        if (mcId == MULTICHOICE_GAME_CORNER_TMPRIZES
-         || mcId == MULTICHOICE_BIKE_SHOP
-         || mcId == MULTICHOICE_GAME_CORNER_BATTLE_ITEM_PRIZES)
+        if (mcId == MULTICHOICE_GAME_CORNER_TMPRIZES || mcId == MULTICHOICE_BIKE_SHOP || mcId == MULTICHOICE_GAME_CORNER_BATTLE_ITEM_PRIZES)
             PrintMenuActionTextsWithSpacing(windowId, FONT_NORMAL, 8, 2, 14, count, list, 0, 2);
         else
             PrintMenuActionTextsWithSpacing(windowId, FONT_NORMAL, 8, 2, 14, count, list, 0, 2);
@@ -772,18 +687,16 @@ static u8 GetMCWindowHeight(u8 count)
     }
 }
 
-#define tTimer         data[2]
-#define tIgnoreBPress  data[4]
-#define tWrapAround    data[5]
-#define tWindowId      data[6]
+#define tTimer data[2]
+#define tIgnoreBPress data[4]
+#define tWrapAround data[5]
+#define tWindowId data[6]
 #define tMultichoiceId data[7]
 
 static void CreateMCMenuInputHandlerTask(u8 ignoreBpress, u8 count, u8 windowId, u8 mcId)
 {
     u8 taskId;
-    if (mcId == MULTICHOICE_TRADE_CENTER_COLOSSEUM
-     || mcId == MULTICHOICE_TRADE_COLOSSEUM_CRUSH
-     || mcId == MULTICHOICE_TRADE_COLOSSEUM_2)
+    if (mcId == MULTICHOICE_TRADE_CENTER_COLOSSEUM || mcId == MULTICHOICE_TRADE_COLOSSEUM_CRUSH || mcId == MULTICHOICE_TRADE_COLOSSEUM_2)
         sDelay = 12;
     else
         sDelay = 0;
@@ -899,7 +812,7 @@ static void Task_YesNoMenu_HandleInput(u8 taskId)
 
 bool8 ScriptMenu_MultichoiceGrid(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBpress, u8 columnCount)
 {
-    const struct MenuAction * list;
+    const struct MenuAction *list;
     u8 count;
     u8 width;
     u8 rowCount;
@@ -954,10 +867,10 @@ static void Hask_MultichoiceGridMenu_HandleInput(u8 taskId)
 #undef tWindowId
 #undef tMultichoiceId
 
-#define tState        data[0]
-#define tSpecies      data[1]
-#define tSpriteId     data[2]
-#define tWindowId     data[5]
+#define tState data[0]
+#define tSpecies data[1]
+#define tSpriteId data[2]
+#define tWindowId data[5]
 
 bool8 CreatePCMenu(void)
 {
@@ -1009,10 +922,7 @@ static void CreatePCMenuWindow(void)
             AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_ProfOakSPc, cursorWidth, 34, TEXT_SKIP_DRAW, NULL);
         AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_LogOff, cursorWidth, 2 + 16 * (numItems - 1), TEXT_SKIP_DRAW, NULL);
     }
-    if (FlagGet(FLAG_SYS_NOT_SOMEONES_PC))
-        AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_BillSPc, cursorWidth, 2 , TEXT_SKIP_DRAW, NULL);
-    else
-        AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_SomeoneSPc, cursorWidth, 2 , TEXT_SKIP_DRAW, NULL);
+    AddTextPrinterParameterized(windowId, FONT_NORMAL, gText_BillSPc, cursorWidth, 2, TEXT_SKIP_DRAW, NULL);
     StringExpandPlaceholders(gStringVar4, gText_SPc);
     PrintPlayerNameOnWindow(windowId, gStringVar4, cursorWidth, 18);
     InitMenuNormal(windowId, FONT_NORMAL, 0, 2, 16, numItems, 0);
@@ -1131,7 +1041,7 @@ void Task_WaitMuseumFossilPic(u8 taskId)
     }
 }
 
-#define FOSSIL_PIC_PAL_NUM  13
+#define FOSSIL_PIC_PAL_NUM 13
 
 bool8 OpenMuseumFossilPic(void)
 {
@@ -1251,7 +1161,7 @@ void DrawSeagallopDestinationMenu(void)
     fontHeight = GetFontAttribute(FONT_NORMAL, FONTATTR_MAX_LETTER_HEIGHT);
     windowId = CreateWindowFromRect(17, top, 11, numItems * 2);
     SetStandardWindowBorderStyle(windowId, FALSE);
-    
+
     // -2 excludes "Other" and "Exit", appended after the loop
     for (i = 0; i < numItems - 2; i++)
     {
@@ -1329,4 +1239,3 @@ int ConvertPixelWidthToTileWidth(int width)
 {
     return (((width + 9) / 8) + 1) > MAX_MULTICHOICE_WIDTH ? MAX_MULTICHOICE_WIDTH : (((width + 9) / 8) + 1);
 }
-

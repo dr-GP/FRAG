@@ -45,8 +45,7 @@ EventScript_AccessPlayersPC::
 
 EventScript_AccessPokemonStorage::
 	playse SE_PC_LOGIN
-	call_if_unset FLAG_SYS_NOT_SOMEONES_PC, EventScript_AccessSomeonesPC
-	call_if_set FLAG_SYS_NOT_SOMEONES_PC, EventScript_AccessBillsPC
+	call EventScript_AccessBillsPC
 	msgbox Text_OpenedPkmnStorage
 	special ShowPokemonStorageSystemPC
 	waitstate
@@ -54,10 +53,6 @@ EventScript_AccessPokemonStorage::
 	special Script_SetHelpContext
 	goto EventScript_PCMainMenu
 	end
-
-EventScript_AccessSomeonesPC::
-	msgbox Text_AccessedSomeonesPC
-	return
 
 EventScript_AccessBillsPC::
 	msgbox Text_AccessedBillsPC

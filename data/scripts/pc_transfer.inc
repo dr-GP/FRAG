@@ -15,20 +15,7 @@ EventScript_NameReceivedBoxMon::
 EventScript_TransferredToPC::
 	bufferboxname STR_VAR_1, VAR_PC_BOX_TO_SEND_MON
 	bufferspeciesname STR_VAR_2, VAR_TEMP_1
-	call_if_unset FLAG_SYS_NOT_SOMEONES_PC, EventScript_TransferredSomeonesPC
-	call_if_set FLAG_SYS_NOT_SOMEONES_PC, EventScript_TransferredBillsPC
-	return
-
-EventScript_TransferredSomeonesPC::
-	specialvar VAR_RESULT, ShouldShowBoxWasFullMessage
-	goto_if_eq VAR_RESULT, TRUE, EventScript_TransferredSomeonesPCBoxFull
-	msgbox Text_MonSentToBoxInSomeonesPC
-	return
-
-EventScript_TransferredSomeonesPCBoxFull::
-	specialvar VAR_RESULT, GetPCBoxToSendMon
-	bufferboxname STR_VAR_3, VAR_RESULT
-	msgbox Text_MonSentToBoxSomeonesBoxFull
+	call EventScript_TransferredBillsPC
 	return
 
 EventScript_TransferredBillsPC::
