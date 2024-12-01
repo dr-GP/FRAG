@@ -452,3 +452,6 @@ PalletTown_EventScript_SignLadyStartShowSign::
 	release
 	end
 `
+script PalletTown_EventScript_ItemRepel {
+	finditem(ITEM_REPEL, 5)
+}
