@@ -21,6 +21,9 @@ $(OBJEVENTGFXDIR)/misc/town_map.4bpp: %.4bpp: %.png
 $(OBJEVENTGFXDIR)/people/agatha.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
+$(OBJEVENTGFXDIR)/people/ash_hoenn.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -mwidth 2 -mheight 4
+
 $(OBJEVENTGFXDIR)/people/balding_man.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -mwidth 2 -mheight 4
 
