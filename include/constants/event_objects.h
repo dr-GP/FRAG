@@ -265,6 +265,7 @@
 #define OBJ_EVENT_PAL_TAG_NPC_3                       0x111E // emerald
 #define OBJ_EVENT_PAL_TAG_NPC_4                       0x111F // emerald
 #define OBJ_EVENT_PAL_TAG_DYNAMIC                     0x1120
+#define OBJ_EVENT_PAL_TAG_HOENN_ASH                   0x1121
 
 #if OW_FOLLOWERS_POKEBALLS
 // Vanilla
