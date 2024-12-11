@@ -22,7 +22,8 @@
 
 #define TAG_AREA_MARKERS 2001
 
-enum TextMode {
+enum TextMode
+{
     TEXT_LEFT,
     TEXT_CENTER,
     TEXT_RIGHT
@@ -63,11 +64,11 @@ struct PokedexScreenData
     u8 numericalOrderWindowId;
     u8 orderedListMenuTaskId;
     u8 dexOrderId;
-    struct ListMenuItem * listItems;
+    struct ListMenuItem *listItems;
     u16 orderedDexCount;
     u8 windowIds[0x10];
     u16 dexSpecies;
-    u16 * bgBufsMem;
+    u16 *bgBufsMem;
     u8 scrollArrowsTaskId;
     u8 categoryPageCursorTaskId;
     u16 modeSelectCursorPosBak;
@@ -80,17 +81,17 @@ struct PokedexScreenData
 
 struct PokedexScreenWindowGfx
 {
-    const u32 * tiles;
-    const u16 * pal;
+    const u32 *tiles;
+    const u16 *pal;
 };
 
 struct PokedexCategoryPage
 {
-    const u16 * species;
+    const u16 *species;
     u8 count;
 };
 
-EWRAM_DATA static struct PokedexScreenData * sPokedexScreenData = NULL;
+EWRAM_DATA static struct PokedexScreenData *sPokedexScreenData = NULL;
 
 static void Task_PokedexScreen(u8 taskId);
 static void DexScreen_InitGfxForTopMenu(void);
@@ -99,7 +100,7 @@ static void DexScreen_InitGfxForNumericalOrderList(void);
 static void Task_DexScreen_CharacteristicOrder(u8 taskId);
 static void DexScreen_CreateCharacteristicListMenu(void);
 static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx);
-static void DexScreen_InitListMenuForOrderedList(const struct ListMenuTemplate * template, u8 order);
+static void DexScreen_InitListMenuForOrderedList(const struct ListMenuTemplate *template, u8 order);
 static u8 DexScreen_CreateDexOrderScrollArrows(void);
 static void DexScreen_DestroyDexOrderListMenu(u8 order);
 static void Task_DexScreen_CategorySubmenu(u8 taskId);
@@ -138,14 +139,14 @@ static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y);
 static void Task_DexScreen_RegisterNonKantoMonBeforeNationalDex(u8 taskId);
 static void Task_DexScreen_RegisterMonToPokedex(u8 taskId);
 
-static u8* GetUnknownMonHeightString(void);
-static u8* GetUnknownMonWeightString(void);
-static u8* ReplaceDecimalSeparator(const u8* originalString);
-static u8* ConvertMonHeightToImperialString(u32 height);
-static u8* ConvertMonHeightToMetricString(u32 height);
-static u8* ConvertMonWeightToImperialString(u32 weight);
-static u8* ConvertMonWeightToMetricString(u32 weight);
-static u8* ConvertMeasurementToMetricString(u32 num, u32* index);
+static u8 *GetUnknownMonHeightString(void);
+static u8 *GetUnknownMonWeightString(void);
+static u8 *ReplaceDecimalSeparator(const u8 *originalString);
+static u8 *ConvertMonHeightToImperialString(u32 height);
+static u8 *ConvertMonHeightToMetricString(u32 height);
+static u8 *ConvertMonWeightToImperialString(u32 weight);
+static u8 *ConvertMonWeightToMetricString(u32 weight);
+static u8 *ConvertMeasurementToMetricString(u32 num, u32 *index);
 
 const u32 sCategoryMonInfoBgTiles[] = INCBIN_U32("graphics/pokedex/mini_page.4bpp.lz");
 const u32 sKantoDexTiles[] = INCBIN_U32("graphics/pokedex/kanto_dex_bgtiles.4bpp.lz");
@@ -158,8 +159,7 @@ const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(28, 18, 15), RGB(28, 22, 19),
     RGB(30, 16, 13), RGB(29, 21, 18),
     RGB(28, 18, 15), RGB(28, 22, 19),
-    RGB(26, 20, 15), RGB(27, 23, 19)
-};
+    RGB(26, 20, 15), RGB(27, 23, 19)};
 
 const u16 sNationalDexPalette[0x100] = INCBIN_U16("graphics/pokedex/national_dex_bgpals.gbapal");
 const u32 sTopMenuIconTiles_Cave[] = INCBIN_U32("graphics/pokedex/cat_icon_cave.4bpp.lz");
@@ -208,72 +208,58 @@ const u16 sBlitTiles_WideEllipse[] = INCBIN_U16("graphics/pokedex/blit_wide_elli
 static const u8 gExpandedPlaceholder_PokedexDescription[] = _("");
 
 static const struct BgTemplate sBgTemplates[] = {
-    {
-        .bg = 0,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 5,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0x0000
-    },
-    {
-        .bg = 1,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 4,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 1,
-        .baseTile = 0x0000
-    },
-    {
-        .bg = 2,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 6,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 2,
-        .baseTile = 0x0000
-    },
-    {
-        .bg = 3,
-        .charBaseIndex = 0,
-        .mapBaseIndex = 7,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 3,
-        .baseTile = 0x0000
-    },
+    {.bg = 0,
+     .charBaseIndex = 0,
+     .mapBaseIndex = 5,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 0,
+     .baseTile = 0x0000},
+    {.bg = 1,
+     .charBaseIndex = 2,
+     .mapBaseIndex = 4,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 1,
+     .baseTile = 0x0000},
+    {.bg = 2,
+     .charBaseIndex = 2,
+     .mapBaseIndex = 6,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 2,
+     .baseTile = 0x0000},
+    {.bg = 3,
+     .charBaseIndex = 0,
+     .mapBaseIndex = 7,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 3,
+     .baseTile = 0x0000},
 };
 
 static const struct WindowTemplate sWindowTemplates[] = {
-    {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 0,
-        .width = 30,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 0x03c4
-    },
-    {
-        .bg = 0,
-        .tilemapLeft = 0,
-        .tilemapTop = 18,
-        .width = 30,
-        .height = 2,
-        .paletteNum = 15,
-        .baseBlock = 0x0388
-    },
-    {
-        .bg = 255,
-        .tilemapLeft = 0,
-        .tilemapTop = 0,
-        .width = 0,
-        .height = 0,
-        .paletteNum = 0,
-        .baseBlock = 0x0000
-    },
+    {.bg = 0,
+     .tilemapLeft = 0,
+     .tilemapTop = 0,
+     .width = 30,
+     .height = 2,
+     .paletteNum = 15,
+     .baseBlock = 0x03c4},
+    {.bg = 0,
+     .tilemapLeft = 0,
+     .tilemapTop = 18,
+     .width = 30,
+     .height = 2,
+     .paletteNum = 15,
+     .baseBlock = 0x0388},
+    {.bg = 255,
+     .tilemapLeft = 0,
+     .tilemapTop = 0,
+     .width = 0,
+     .height = 0,
+     .paletteNum = 0,
+     .baseBlock = 0x0000},
 };
 
 static const struct PokedexScreenData sDexScreenDataInitialState = {
@@ -290,7 +276,6 @@ static const struct PokedexScreenData sDexScreenDataInitialState = {
     .categoryPageCursorTaskId = -1,
 };
 
-
 static const struct WindowTemplate sWindowTemplate_ModeSelect = {
     .bg = 1,
     .tilemapLeft = 1,
@@ -298,8 +283,7 @@ static const struct WindowTemplate sWindowTemplate_ModeSelect = {
     .width = 20,
     .height = 16,
     .paletteNum = 0,
-    .baseBlock = 0x0008
-};
+    .baseBlock = 0x0008};
 
 static const struct WindowTemplate sWindowTemplate_SelectionIcon = {
     .bg = 1,
@@ -308,8 +292,7 @@ static const struct WindowTemplate sWindowTemplate_SelectionIcon = {
     .width = 8,
     .height = 6,
     .paletteNum = 1,
-    .baseBlock = 0x0148
-};
+    .baseBlock = 0x0148};
 
 static const struct WindowTemplate sWindowTemplate_DexCounts = {
     .bg = 1,
@@ -318,29 +301,28 @@ static const struct WindowTemplate sWindowTemplate_DexCounts = {
     .width = 9,
     .height = 9,
     .paletteNum = 0,
-    .baseBlock = 0x0178
-};
+    .baseBlock = 0x0178};
 
 static const struct ListMenuItem sListMenuItems_KantoDexModeSelect[] = {
-    {gText_PokemonList,                  LIST_HEADER},
-    {gText_NumericalMode,                DEX_ORDER_NUMERICAL_KANTO},
-    {gText_PokemonHabitats,              LIST_HEADER},
-    {gText_DexCategory_GrasslandPkmn,    DEX_CATEGORY_GRASSLAND},
-    {gText_DexCategory_ForestPkmn,       DEX_CATEGORY_FOREST},
-    {gText_DexCategory_WatersEdgePkmn,   DEX_CATEGORY_WATERS_EDGE},
-    {gText_DexCategory_SeaPkmn,          DEX_CATEGORY_SEA},
-    {gText_DexCategory_CavePkmn,         DEX_CATEGORY_CAVE},
-    {gText_DexCategory_MountainPkmn,     DEX_CATEGORY_MOUNTAIN},
+    {gText_PokemonList, LIST_HEADER},
+    {gText_NumericalMode, DEX_ORDER_NUMERICAL_KANTO},
+    {gText_PokemonHabitats, LIST_HEADER},
+    {gText_DexCategory_GrasslandPkmn, DEX_CATEGORY_GRASSLAND},
+    {gText_DexCategory_ForestPkmn, DEX_CATEGORY_FOREST},
+    {gText_DexCategory_WatersEdgePkmn, DEX_CATEGORY_WATERS_EDGE},
+    {gText_DexCategory_SeaPkmn, DEX_CATEGORY_SEA},
+    {gText_DexCategory_CavePkmn, DEX_CATEGORY_CAVE},
+    {gText_DexCategory_MountainPkmn, DEX_CATEGORY_MOUNTAIN},
     {gText_DexCategory_RoughTerrainPkmn, DEX_CATEGORY_ROUGH_TERRAIN},
-    {gText_DexCategory_UrbanPkmn,        DEX_CATEGORY_URBAN},
-    {gText_DexCategory_RarePkmn,         DEX_CATEGORY_RARE},
-    {gText_Search,                       LIST_HEADER},
-    {gText_AToZMode,                     DEX_ORDER_ATOZ},
-    {gText_TypeMode,                     DEX_ORDER_TYPE},
-    {gText_LightestMode,                 DEX_ORDER_LIGHTEST},
-    {gText_SmallestMode,                 DEX_ORDER_SMALLEST},
-    {gText_PokedexOther,                 LIST_HEADER},
-    {gText_ClosePokedex,                 LIST_CANCEL},
+    {gText_DexCategory_UrbanPkmn, DEX_CATEGORY_URBAN},
+    {gText_DexCategory_RarePkmn, DEX_CATEGORY_RARE},
+    {gText_Search, LIST_HEADER},
+    {gText_AToZMode, DEX_ORDER_ATOZ},
+    {gText_TypeMode, DEX_ORDER_TYPE},
+    {gText_LightestMode, DEX_ORDER_LIGHTEST},
+    {gText_SmallestMode, DEX_ORDER_SMALLEST},
+    {gText_PokedexOther, LIST_HEADER},
+    {gText_ClosePokedex, LIST_CANCEL},
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_KantoDexModeSelect = {
@@ -365,26 +347,25 @@ static const struct ListMenuTemplate sListMenuTemplate_KantoDexModeSelect = {
 };
 
 static const struct ListMenuItem sListMenuItems_NatDexModeSelect[] = {
-    {gText_PokemonList,                  LIST_HEADER},
-    {gText_NumericalModeKanto,           DEX_ORDER_NUMERICAL_KANTO},
-    {gText_NumericalModeNational,        DEX_ORDER_NUMERICAL_NATIONAL},
-    {gText_PokemonHabitats,              LIST_HEADER},
-    {gText_DexCategory_GrasslandPkmn,    DEX_CATEGORY_GRASSLAND},
-    {gText_DexCategory_ForestPkmn,       DEX_CATEGORY_FOREST},
-    {gText_DexCategory_WatersEdgePkmn,   DEX_CATEGORY_WATERS_EDGE},
-    {gText_DexCategory_SeaPkmn,          DEX_CATEGORY_SEA},
-    {gText_DexCategory_CavePkmn,         DEX_CATEGORY_CAVE},
-    {gText_DexCategory_MountainPkmn,     DEX_CATEGORY_MOUNTAIN},
+    {gText_PokemonList, LIST_HEADER},
+    {gText_NumericalModeNational, DEX_ORDER_NUMERICAL_NATIONAL},
+    {gText_PokemonHabitats, LIST_HEADER},
+    {gText_DexCategory_GrasslandPkmn, DEX_CATEGORY_GRASSLAND},
+    {gText_DexCategory_ForestPkmn, DEX_CATEGORY_FOREST},
+    {gText_DexCategory_WatersEdgePkmn, DEX_CATEGORY_WATERS_EDGE},
+    {gText_DexCategory_SeaPkmn, DEX_CATEGORY_SEA},
+    {gText_DexCategory_CavePkmn, DEX_CATEGORY_CAVE},
+    {gText_DexCategory_MountainPkmn, DEX_CATEGORY_MOUNTAIN},
     {gText_DexCategory_RoughTerrainPkmn, DEX_CATEGORY_ROUGH_TERRAIN},
-    {gText_DexCategory_UrbanPkmn,        DEX_CATEGORY_URBAN},
-    {gText_DexCategory_RarePkmn,         DEX_CATEGORY_RARE},
-    {gText_Search,                       LIST_HEADER},
-    {gText_AToZMode,                     DEX_ORDER_ATOZ},
-    {gText_TypeMode,                     DEX_ORDER_TYPE},
-    {gText_LightestMode,                 DEX_ORDER_LIGHTEST},
-    {gText_SmallestMode,                 DEX_ORDER_SMALLEST},
-    {gText_PokedexOther,                 LIST_HEADER},
-    {gText_ClosePokedex,                 LIST_CANCEL},
+    {gText_DexCategory_UrbanPkmn, DEX_CATEGORY_URBAN},
+    {gText_DexCategory_RarePkmn, DEX_CATEGORY_RARE},
+    {gText_Search, LIST_HEADER},
+    {gText_AToZMode, DEX_ORDER_ATOZ},
+    {gText_TypeMode, DEX_ORDER_TYPE},
+    {gText_LightestMode, DEX_ORDER_LIGHTEST},
+    {gText_SmallestMode, DEX_ORDER_SMALLEST},
+    {gText_PokedexOther, LIST_HEADER},
+    {gText_ClosePokedex, LIST_CANCEL},
 };
 
 static const struct ListMenuTemplate sListMenuTemplate_NatDexModeSelect = {
@@ -419,8 +400,7 @@ static const struct ScrollArrowsTemplate sScrollArrowsTemplate_KantoDex = {
     .fullyDownThreshold = 10,
     .tileTag = 2000,
     .palTag = 0xFFFF,
-    .palNum = 1
-};
+    .palNum = 1};
 
 static const struct ScrollArrowsTemplate sScrollArrowsTemplate_NatDex = {
     .firstArrowType = 2,
@@ -433,71 +413,26 @@ static const struct ScrollArrowsTemplate sScrollArrowsTemplate_NatDex = {
     .fullyDownThreshold = 11,
     .tileTag = 2000,
     .palTag = 0xFFFF,
-    .palNum = 1
-};
-
+    .palNum = 1};
 
 static const struct PokedexScreenWindowGfx sTopMenuSelectionIconGfxPtrs[] = {
     [DEX_CATEGORY_GRASSLAND] = {
         .tiles = sTopMenuIconTiles_Grassland,
-        .pal   = sTopMenuIconPals_Grassland
-    },
-    [DEX_CATEGORY_FOREST] = {
-        .tiles = sTopMenuIconTiles_Forest,
-        .pal   = sTopMenuIconPals_Forest
-    },
-    [DEX_CATEGORY_WATERS_EDGE] = {
-        .tiles = sTopMenuIconTiles_WatersEdge,
-        .pal   = sTopMenuIconPals_WatersEdge
-    },
-    [DEX_CATEGORY_SEA] = {
-        .tiles = sTopMenuIconTiles_Sea,
-        .pal   = sTopMenuIconPals_Sea
-    },
-    [DEX_CATEGORY_CAVE] = {
-        .tiles = sTopMenuIconTiles_Cave,
-        .pal   = sTopMenuIconPals_Cave
-    },
-    [DEX_CATEGORY_MOUNTAIN] = {
-        .tiles = sTopMenuIconTiles_Mountain,
-        .pal   = sTopMenuIconPals_Mountain
-    },
-    [DEX_CATEGORY_ROUGH_TERRAIN] = {
-        .tiles = sTopMenuIconTiles_RoughTerrain,
-        .pal   = sTopMenuIconPals_RoughTerrain
-    },
-    [DEX_CATEGORY_URBAN] = {
-        .tiles = sTopMenuIconTiles_Urban,
-        .pal   = sTopMenuIconPals_Urban
-    },
-    [DEX_CATEGORY_RARE] = {
-        .tiles = sTopMenuIconTiles_Rare,
-        .pal   = sTopMenuIconPals_Rare
-    },
-    [DEX_ORDER_NUMERICAL_KANTO] = {
-        .tiles = sTopMenuIconTiles_Numerical,
-        .pal   = sTopMenuIconPals_Numerical
-    },
-    [DEX_ORDER_ATOZ] = {
-        .tiles = gDexScreen_TopMenuIconTiles_AtoZ,
-        .pal   = gDexScreen_TopMenuIconPals_AtoZ
-    },
-    [DEX_ORDER_TYPE] = {
-        .tiles = sTopMenuIconTiles_Type,
-        .pal   = sTopMenuIconPals_Type
-    },
-    [DEX_ORDER_LIGHTEST] = {
-        .tiles = sTopMenuIconTiles_Lightest,
-        .pal   = sTopMenuIconPals_Lightest
-    },
-    [DEX_ORDER_SMALLEST] = {
-        .tiles = sTopMenuIconTiles_Smallest,
-        .pal   = sTopMenuIconPals_Smallest
-    },
-    [DEX_ORDER_NUMERICAL_NATIONAL] = {
-        .tiles = sTopMenuIconTiles_Numerical,
-        .pal   = sTopMenuIconPals_Numerical
-    },
+        .pal = sTopMenuIconPals_Grassland},
+    [DEX_CATEGORY_FOREST] = {.tiles = sTopMenuIconTiles_Forest, .pal = sTopMenuIconPals_Forest},
+    [DEX_CATEGORY_WATERS_EDGE] = {.tiles = sTopMenuIconTiles_WatersEdge, .pal = sTopMenuIconPals_WatersEdge},
+    [DEX_CATEGORY_SEA] = {.tiles = sTopMenuIconTiles_Sea, .pal = sTopMenuIconPals_Sea},
+    [DEX_CATEGORY_CAVE] = {.tiles = sTopMenuIconTiles_Cave, .pal = sTopMenuIconPals_Cave},
+    [DEX_CATEGORY_MOUNTAIN] = {.tiles = sTopMenuIconTiles_Mountain, .pal = sTopMenuIconPals_Mountain},
+    [DEX_CATEGORY_ROUGH_TERRAIN] = {.tiles = sTopMenuIconTiles_RoughTerrain, .pal = sTopMenuIconPals_RoughTerrain},
+    [DEX_CATEGORY_URBAN] = {.tiles = sTopMenuIconTiles_Urban, .pal = sTopMenuIconPals_Urban},
+    [DEX_CATEGORY_RARE] = {.tiles = sTopMenuIconTiles_Rare, .pal = sTopMenuIconPals_Rare},
+    [DEX_ORDER_NUMERICAL_KANTO] = {.tiles = sTopMenuIconTiles_Numerical, .pal = sTopMenuIconPals_Numerical},
+    [DEX_ORDER_ATOZ] = {.tiles = gDexScreen_TopMenuIconTiles_AtoZ, .pal = gDexScreen_TopMenuIconPals_AtoZ},
+    [DEX_ORDER_TYPE] = {.tiles = sTopMenuIconTiles_Type, .pal = sTopMenuIconPals_Type},
+    [DEX_ORDER_LIGHTEST] = {.tiles = sTopMenuIconTiles_Lightest, .pal = sTopMenuIconPals_Lightest},
+    [DEX_ORDER_SMALLEST] = {.tiles = sTopMenuIconTiles_Smallest, .pal = sTopMenuIconPals_Smallest},
+    [DEX_ORDER_NUMERICAL_NATIONAL] = {.tiles = sTopMenuIconTiles_Numerical, .pal = sTopMenuIconPals_Numerical},
 };
 
 #define DEX_ARROW_NO_WIDTH 5
@@ -513,8 +448,7 @@ static const struct WindowTemplate sWindowTemplate_OrderedListMenu = {
     .width = DEX_ORDER_LIST_WIDTH,
     .height = 16,
     .paletteNum = 0,
-    .baseBlock = 0x0008
-};
+    .baseBlock = 0x0008};
 
 static const struct ListMenuTemplate sListMenuTemplate_OrderedListMenu = {
     .items = sListMenuItems_KantoDexModeSelect,
@@ -538,42 +472,38 @@ static const struct ListMenuTemplate sListMenuTemplate_OrderedListMenu = {
 };
 
 static const struct ListMenuWindowRect sListMenuRects_OrderedList[] = {
-    {   // arrow + no.
-        .x = 0,
-        .y = 0,
-        .width = DEX_ARROW_NO_WIDTH,
-        .height = 16,
-        .palNum = 0
-    }, 
-    {   // owned indicator (pokeball)
-        .x = DEX_ARROW_NO_WIDTH,
-        .y = 0,
-        .width = DEX_OWNED_INDICATOR_WIDTH,
-        .height = 16,
-        .palNum = 1
-    }, 
-    {   // species name
-        .x = DEX_ARROW_NO_WIDTH + DEX_OWNED_INDICATOR_WIDTH,
-        .y = 0,
-        .width = DEX_SPECIES_NAME_WIDTH,
-        .height = 16,
-        .palNum = 0
-    }, 
-    {   // type icons
+    {// arrow + no.
+     .x = 0,
+     .y = 0,
+     .width = DEX_ARROW_NO_WIDTH,
+     .height = 16,
+     .palNum = 0},
+    {// owned indicator (pokeball)
+     .x = DEX_ARROW_NO_WIDTH,
+     .y = 0,
+     .width = DEX_OWNED_INDICATOR_WIDTH,
+     .height = 16,
+     .palNum = 1},
+    {// species name
+     .x = DEX_ARROW_NO_WIDTH + DEX_OWNED_INDICATOR_WIDTH,
+     .y = 0,
+     .width = DEX_SPECIES_NAME_WIDTH,
+     .height = 16,
+     .palNum = 0},
+    {
+        // type icons
         .x = DEX_ARROW_NO_WIDTH + DEX_OWNED_INDICATOR_WIDTH + DEX_SPECIES_NAME_WIDTH,
         .y = 0,
         .width = DEX_TYPE_ICONS_WIDTH,
         .height = 16,
         .palNum = 2,
-    }, 
-    {   // end
-        .x = 0xFF,
-        .y = 0xFF,
-        .width = 0xFF,
-        .height = 0xFF,
-        .palNum = 0xFF
-    }
-};
+    },
+    {// end
+     .x = 0xFF,
+     .y = 0xFF,
+     .width = 0xFF,
+     .height = 0xFF,
+     .palNum = 0xFF}};
 
 #undef DEX_ARROW_NO_WIDTH
 #undef DEX_OWNED_INDICATOR_WIDTH
@@ -602,8 +532,7 @@ static const struct WindowTemplate sWindowTemplate_CategoryMonIcon = {
     .width = 8,
     .height = 8,
     .paletteNum = 0,
-    .baseBlock = 0x0000
-};
+    .baseBlock = 0x0000};
 
 static const struct WindowTemplate sWindowTemplate_CategoryMonInfo = {
     .bg = 1,
@@ -612,8 +541,7 @@ static const struct WindowTemplate sWindowTemplate_CategoryMonInfo = {
     .width = 8,
     .height = 5,
     .paletteNum = 0,
-    .baseBlock = 0x0000
-};
+    .baseBlock = 0x0000};
 
 const struct WindowTemplate sWindowTemplate_DexEntry_MonPic = {
     .bg = 1,
@@ -622,8 +550,7 @@ const struct WindowTemplate sWindowTemplate_DexEntry_MonPic = {
     .width = 8,
     .height = 8,
     .paletteNum = 9,
-    .baseBlock = 0x01a8
-};
+    .baseBlock = 0x01a8};
 
 const struct WindowTemplate sWindowTemplate_DexEntry_SpeciesStats = {
     .bg = 1,
@@ -632,8 +559,7 @@ const struct WindowTemplate sWindowTemplate_DexEntry_SpeciesStats = {
     .width = 13,
     .height = 8,
     .paletteNum = 0,
-    .baseBlock = 0x01e8
-};
+    .baseBlock = 0x01e8};
 
 const struct WindowTemplate sWindowTemplate_DexEntry_FlavorText = {
     .bg = 1,
@@ -642,8 +568,7 @@ const struct WindowTemplate sWindowTemplate_DexEntry_FlavorText = {
     .width = 30,
     .height = 7,
     .paletteNum = 0,
-    .baseBlock = 0x0250
-};
+    .baseBlock = 0x0250};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_MonIcon = {
     .bg = 2,
@@ -652,8 +577,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_MonIcon = {
     .width = 4,
     .height = 4,
     .paletteNum = 10,
-    .baseBlock = 0x01a8
-};
+    .baseBlock = 0x01a8};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_SpeciesName = {
     .bg = 2,
@@ -662,8 +586,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_SpeciesName = {
     .width = 8,
     .height = 3,
     .paletteNum = 0,
-    .baseBlock = 0x01b8
-};
+    .baseBlock = 0x01b8};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_Size = {
     .bg = 2,
@@ -672,8 +595,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_Size = {
     .width = 10,
     .height = 2,
     .paletteNum = 0,
-    .baseBlock = 0x01d0
-};
+    .baseBlock = 0x01d0};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_Area = {
     .bg = 2,
@@ -682,8 +604,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_Area = {
     .width = 10,
     .height = 2,
     .paletteNum = 0,
-    .baseBlock = 0x01e4
-};
+    .baseBlock = 0x01e4};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_MonTypes = {
     .bg = 2,
@@ -692,8 +613,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_MonTypes = {
     .width = 8,
     .height = 2,
     .paletteNum = 11,
-    .baseBlock = 0x01f8
-};
+    .baseBlock = 0x01f8};
 
 const struct WindowTemplate sWindowTemplate_AreaMap_Kanto = {
     .bg = 2,
@@ -702,8 +622,7 @@ const struct WindowTemplate sWindowTemplate_AreaMap_Kanto = {
     .width = 12,
     .height = 9,
     .paletteNum = 0,
-    .baseBlock = 0x0208
-};
+    .baseBlock = 0x0208};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_OneIsland = {
     .bg = 2,
@@ -712,8 +631,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_OneIsland = {
     .width = 4,
     .height = 3,
     .paletteNum = 0,
-    .baseBlock = 0x0274
-};
+    .baseBlock = 0x0274};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_TwoIsland = {
     .bg = 2,
@@ -722,8 +640,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_TwoIsland = {
     .width = 4,
     .height = 3,
     .paletteNum = 0,
-    .baseBlock = 0x0280
-};
+    .baseBlock = 0x0280};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_ThreeIsland = {
     .bg = 2,
@@ -732,8 +649,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_ThreeIsland = {
     .width = 4,
     .height = 3,
     .paletteNum = 0,
-    .baseBlock = 0x028c
-};
+    .baseBlock = 0x028c};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_FourIsland = {
     .bg = 2,
@@ -742,8 +658,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_FourIsland = {
     .width = 4,
     .height = 4,
     .paletteNum = 0,
-    .baseBlock = 0x0298
-};
+    .baseBlock = 0x0298};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_FiveIsland = {
     .bg = 2,
@@ -752,8 +667,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_FiveIsland = {
     .width = 4,
     .height = 4,
     .paletteNum = 0,
-    .baseBlock = 0x02a8
-};
+    .baseBlock = 0x02a8};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_SixIsland = {
     .bg = 2,
@@ -762,8 +676,7 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_SixIsland = {
     .width = 4,
     .height = 4,
     .paletteNum = 0,
-    .baseBlock = 0x02b8
-};
+    .baseBlock = 0x02b8};
 
 static const struct WindowTemplate sWindowTemplate_AreaMap_SevenIsland = {
     .bg = 2,
@@ -772,19 +685,19 @@ static const struct WindowTemplate sWindowTemplate_AreaMap_SevenIsland = {
     .width = 4,
     .height = 4,
     .paletteNum = 0,
-    .baseBlock = 0x02c8
-};
+    .baseBlock = 0x02c8};
 
-struct {
-    const struct WindowTemplate * window;
-    const u32 * tiles;
+struct
+{
+    const struct WindowTemplate *window;
+    const u32 *tiles;
 } const sAreaMapStructs_SeviiIslands[] = {
-    {&sWindowTemplate_AreaMap_OneIsland,   sTilemap_AreaMap_OneIsland},
-    {&sWindowTemplate_AreaMap_TwoIsland,   sTilemap_AreaMap_TwoIsland},
+    {&sWindowTemplate_AreaMap_OneIsland, sTilemap_AreaMap_OneIsland},
+    {&sWindowTemplate_AreaMap_TwoIsland, sTilemap_AreaMap_TwoIsland},
     {&sWindowTemplate_AreaMap_ThreeIsland, sTilemap_AreaMap_ThreeIsland},
-    {&sWindowTemplate_AreaMap_FourIsland,  sTilemap_AreaMap_FourIsland},
-    {&sWindowTemplate_AreaMap_FiveIsland,  sTilemap_AreaMap_FiveIsland},
-    {&sWindowTemplate_AreaMap_SixIsland,   sTilemap_AreaMap_SixIsland},
+    {&sWindowTemplate_AreaMap_FourIsland, sTilemap_AreaMap_FourIsland},
+    {&sWindowTemplate_AreaMap_FiveIsland, sTilemap_AreaMap_FiveIsland},
+    {&sWindowTemplate_AreaMap_SixIsland, sTilemap_AreaMap_SixIsland},
     {&sWindowTemplate_AreaMap_SevenIsland, sTilemap_AreaMap_SevenIsland},
 };
 
@@ -792,26 +705,24 @@ static const u16 sCategoryPageIconWindowBg[] = INCBIN_U16("graphics/pokedex/page
 
 // Circular window x/y; Rectangular window x/y
 static const u8 sPageIconCoords_1Mon[1][4] = {
-    {11,  3, 11, 11},
+    {11, 3, 11, 11},
 };
 
 static const u8 sPageIconCoords_2Mons[2][4] = {
-    { 3,  3, 11,  3},
-    {18,  9, 10, 11},
+    {3, 3, 11, 3},
+    {18, 9, 10, 11},
 };
 
 static const u8 sPageIconCoords_3Mons[3][4] = {
-    { 1,  2,  9,  2},
-    {11,  9,  3, 11},
-    {21,  3, 21, 11}
-};
+    {1, 2, 9, 2},
+    {11, 9, 3, 11},
+    {21, 3, 21, 11}};
 
 static const u8 sPageIconCoords_4Mons[4][4] = {
-    { 0,  2,  6,  3},
-    { 7, 10,  0, 12},
+    {0, 2, 6, 3},
+    {7, 10, 0, 12},
     {15, 10, 22, 11},
-    {22,  2, 15,  4}
-};
+    {22, 2, 15, 4}};
 
 const u8 (*const sCategoryPageIconCoords[])[4] = {
     sPageIconCoords_1Mon,
@@ -836,15 +747,15 @@ const u16 sPalette_Silhouette[] = INCBIN_U16("graphics/pokedex/silhouette_sprite
 
 static const u8 sDexScreenPageTurnColumns[][30] = {
     {30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
-    { 5, 11, 17, 23, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
-    { 2,  5,  8, 11, 14, 17, 20, 23, 26, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
-    { 2,  3,  5,  7,  9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
-    { 2,  4,  5,  7,  8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
-    { 1,  2,  3,  4,  7,  8,  9, 10, 11, 12, 13, 15, 16, 17, 19, 20, 21, 23, 24, 25, 27, 28, 29, 30, 30, 30, 30, 30, 30, 30},
-    { 1,  2,  3,  4,  5,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 30, 30, 30},
-    { 1,  2,  3,  4,  5,  6,  7,  8,  9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 30, 30},
-    { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
-    { 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
+    {5, 11, 17, 23, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
+    {2, 5, 8, 11, 14, 17, 20, 23, 26, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
+    {2, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
+    {2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
+    {1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 19, 20, 21, 23, 24, 25, 27, 28, 29, 30, 30, 30, 30, 30, 30, 30},
+    {1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 29, 30, 30, 30, 30},
+    {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 30, 30},
+    {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
+    {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
 };
 
 static const struct ScrollArrowsTemplate sScrollArrowsTemplate_CategoryMenu = {
@@ -897,10 +808,8 @@ void CB2_PokedexScreen(void)
 
 void DexScreen_LoadResources(void)
 {
-    bool8 natDex;
     u8 taskId;
 
-    natDex = IsNationalPokedexEnabled();
     m4aSoundVSyncOff();
     SetVBlankCallback(NULL);
     ResetPaletteFade();
@@ -913,10 +822,7 @@ void DexScreen_LoadResources(void)
     SetBgTilemapBuffer(2, (u16 *)Alloc(BG_SCREEN_SIZE));
     SetBgTilemapBuffer(1, (u16 *)Alloc(BG_SCREEN_SIZE));
     SetBgTilemapBuffer(0, (u16 *)Alloc(BG_SCREEN_SIZE));
-    if (natDex)
         DecompressAndLoadBgGfxUsingHeap(3, (void *)sNatDexTiles, BG_SCREEN_SIZE, 0, 0);
-    else
-        DecompressAndLoadBgGfxUsingHeap(3, (void *)sKantoDexTiles, BG_SCREEN_SIZE, 0, 0);
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
     m4aSoundVSyncOn();
@@ -929,8 +835,6 @@ void DexScreen_LoadResources(void)
     sPokedexScreenData->listItems = Alloc(NATIONAL_DEX_COUNT * sizeof(struct ListMenuItem));
     sPokedexScreenData->numSeenNational = DexScreen_GetDexCount(FLAG_GET_SEEN, 1);
     sPokedexScreenData->numOwnedNational = DexScreen_GetDexCount(FLAG_GET_CAUGHT, 1);
-    sPokedexScreenData->numSeenKanto = DexScreen_GetDexCount(FLAG_GET_SEEN, 0);
-    sPokedexScreenData->numOwnedKanto = DexScreen_GetDexCount(FLAG_GET_CAUGHT, 0);
     SetBGMVolume_SuppressHelpSystemReduction(0x80);
     ChangeBgX(0, 0, 0);
     ChangeBgY(0, 0, 0);
@@ -941,16 +845,13 @@ void DexScreen_LoadResources(void)
     ChangeBgX(3, 0, 0);
     ChangeBgY(3, 0, 0);
     gPaletteFade.bufferTransferDisabled = TRUE;
-    if (natDex)
         LoadPalette(sNationalDexPalette, BG_PLTT_ID(0), sizeof(sNationalDexPalette));
-    else
-        LoadPalette(sKantoDexPalette, BG_PLTT_ID(0), sizeof(sKantoDexPalette));
-    FillBgTilemapBufferRect(3, 0x001, 0,  0, 32, 32, 0);
-    FillBgTilemapBufferRect(2, 0x000, 0,  0, 32, 32, 17);
-    FillBgTilemapBufferRect(1, 0x000, 0,  0, 32, 32, 17);
-    FillBgTilemapBufferRect(0, 0x003, 0,  0, 32,  2, 15);
-    FillBgTilemapBufferRect(0, 0x000, 0,  2, 32, 16, 17);
-    FillBgTilemapBufferRect(0, 0x003, 0, 18, 32,  2, 15);
+    FillBgTilemapBufferRect(3, 0x001, 0, 0, 32, 32, 0);
+    FillBgTilemapBufferRect(2, 0x000, 0, 0, 32, 32, 17);
+    FillBgTilemapBufferRect(1, 0x000, 0, 0, 32, 32, 17);
+    FillBgTilemapBufferRect(0, 0x003, 0, 0, 32, 2, 15);
+    FillBgTilemapBufferRect(0, 0x000, 0, 2, 32, 16, 17);
+    FillBgTilemapBufferRect(0, 0x003, 0, 18, 32, 2, 15);
 }
 
 void CB2_OpenPokedexFromStartMenu(void)
@@ -1049,10 +950,7 @@ static void Task_PokedexScreen(u8 taskId)
         break;
     case 5:
         ListMenuGetScrollAndRow(sPokedexScreenData->modeSelectListMenuId, &sPokedexScreenData->modeSelectCursorPosBak, NULL);
-        if (IsNationalPokedexEnabled())
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
-        else
-            sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_KantoDex, &sPokedexScreenData->modeSelectCursorPosBak);
+        sPokedexScreenData->scrollArrowsTaskId = AddScrollIndicatorArrowPair(&sScrollArrowsTemplate_NatDex, &sPokedexScreenData->modeSelectCursorPosBak);
         sPokedexScreenData->state = 6;
         break;
     case 6:
@@ -1150,34 +1048,14 @@ static void DexScreen_InitGfxForTopMenu(void)
     sPokedexScreenData->modeSelectWindowId = AddWindow(&sWindowTemplate_ModeSelect);
     sPokedexScreenData->selectionIconWindowId = AddWindow(&sWindowTemplate_SelectionIcon);
     sPokedexScreenData->dexCountsWindowId = AddWindow(&sWindowTemplate_DexCounts);
-    if (IsNationalPokedexEnabled())
-    {
-        listMenuTemplate = sListMenuTemplate_NatDexModeSelect;
-        listMenuTemplate.windowId = sPokedexScreenData->modeSelectWindowId;
-        sPokedexScreenData->modeSelectListMenuId = ListMenuInit(&listMenuTemplate, sPokedexScreenData->modeSelectCursorPos, sPokedexScreenData->modeSelectItemsAbove);
-        FillWindowPixelBuffer(sPokedexScreenData->dexCountsWindowId, PIXEL_FILL(0));
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_Seen, 0, 2, 0);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_Kanto, 8, 13, 0);
-        DexScreen_PrintNum4RightAlign(sPokedexScreenData->dexCountsWindowId, 0, sPokedexScreenData->numSeenKanto, 47, 13, 2);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_National, 8, 24, 0);
-        DexScreen_PrintNum4RightAlign(sPokedexScreenData->dexCountsWindowId, 0, sPokedexScreenData->numSeenNational, 47, 24, 2);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_Owned, 0, 37, 0);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_Kanto, 8, 48, 0);
-        DexScreen_PrintNum4RightAlign(sPokedexScreenData->dexCountsWindowId, 0, sPokedexScreenData->numOwnedKanto, 47, 48, 2);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_SMALL, gText_National, 8, 59, 0);
-        DexScreen_PrintNum4RightAlign(sPokedexScreenData->dexCountsWindowId, 0, sPokedexScreenData->numOwnedNational, 47, 59, 2);
-    }
-    else
-    {
-        listMenuTemplate = sListMenuTemplate_KantoDexModeSelect;
-        listMenuTemplate.windowId = sPokedexScreenData->modeSelectWindowId;
-        sPokedexScreenData->modeSelectListMenuId = ListMenuInit(&listMenuTemplate, sPokedexScreenData->modeSelectCursorPos, sPokedexScreenData->modeSelectItemsAbove);
-        FillWindowPixelBuffer(sPokedexScreenData->dexCountsWindowId, PIXEL_FILL(0));
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_NORMAL_COPY_1, gText_Seen, 0, 9, 0);
-        DexScreen_PrintNum3RightAlign(sPokedexScreenData->dexCountsWindowId, 1, sPokedexScreenData->numSeenKanto, 32, 21, 2);
-        DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_NORMAL_COPY_1, gText_Owned, 0, 37, 0);
-        DexScreen_PrintNum3RightAlign(sPokedexScreenData->dexCountsWindowId, 1, sPokedexScreenData->numOwnedKanto, 32, 49, 2);
-    }
+    listMenuTemplate = sListMenuTemplate_NatDexModeSelect;
+    listMenuTemplate.windowId = sPokedexScreenData->modeSelectWindowId;
+    sPokedexScreenData->modeSelectListMenuId = ListMenuInit(&listMenuTemplate, sPokedexScreenData->modeSelectCursorPos, sPokedexScreenData->modeSelectItemsAbove);
+    FillWindowPixelBuffer(sPokedexScreenData->dexCountsWindowId, PIXEL_FILL(0));
+    DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_NORMAL_COPY_1, gText_Seen, 0, 9, 0);
+    DexScreen_PrintNum3RightAlign(sPokedexScreenData->dexCountsWindowId, 1, sPokedexScreenData->numSeenNational, 32, 9, 2);
+    DexScreen_AddTextPrinterParameterized(sPokedexScreenData->dexCountsWindowId, FONT_NORMAL_COPY_1, gText_Owned, 0, 37, 0);
+    DexScreen_PrintNum3RightAlign(sPokedexScreenData->dexCountsWindowId, 1, sPokedexScreenData->numOwnedNational, 32, 37, 2);
     FillWindowPixelBuffer(0, PIXEL_FILL(15));
     DexScreen_PrintStringWithAlignment(gText_PokedexTableOfContents, TEXT_CENTER);
     FillWindowPixelBuffer(1, PIXEL_FILL(15));
@@ -1508,7 +1386,7 @@ static u16 DexScreen_CountMonsInOrderedList(u8 orderIdx)
     return ret;
 }
 
-static void DexScreen_InitListMenuForOrderedList(const struct ListMenuTemplate * template, u8 order)
+static void DexScreen_InitListMenuForOrderedList(const struct ListMenuTemplate *template, u8 order)
 {
     switch (order)
     {
@@ -1561,8 +1439,8 @@ static u8 DexScreen_CreateDexOrderScrollArrows(void)
 struct PokedexListItem
 {
     u16 species;
-    bool8 seen:1;
-    bool8 caught:1;
+    bool8 seen : 1;
+    bool8 caught : 1;
 };
 
 static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y)
@@ -2081,7 +1959,7 @@ static bool32 DexScreen_TryScrollMonsVertical(u8 direction)
             return FALSE;
 
         selectedIndex--;
-        while (selectedIndex >= 0) //Should be while (--selectedIndex >= 0) without the selectedIndex-- in the body or before the while at all, but this is needed to match.
+        while (selectedIndex >= 0) // Should be while (--selectedIndex >= 0) without the selectedIndex-- in the body or before the while at all, but this is needed to match.
         {
             if ((sPokedexScreenData->listItems[selectedIndex].index >> 16) & 1)
             {
@@ -2103,7 +1981,7 @@ static bool32 DexScreen_TryScrollMonsVertical(u8 direction)
         }
 
         selectedIndex++;
-        while (selectedIndex < sPokedexScreenData->orderedDexCount) //Should be while (++selectedIndex < sPokedexScreenData->orderedDexCount) without the selectedIndex++ in the body or before the while at all, but this is needed to match.
+        while (selectedIndex < sPokedexScreenData->orderedDexCount) // Should be while (++selectedIndex < sPokedexScreenData->orderedDexCount) without the selectedIndex++ in the body or before the while at all, but this is needed to match.
         {
             if ((sPokedexScreenData->listItems[selectedIndex].index >> 16) & 1)
                 break;
@@ -2265,18 +2143,9 @@ static void DexScreen_PrintMonDexNo(u8 windowId, u8 fontId, u16 species, u8 x, u
     u8 xNum;
 
     xNum = x + 9;
-    if (allowNationalDex && IsNationalPokedexEnabled())
-    {
-        dexNum = SpeciesToNationalDexNum(species);
-        DexScreen_AddTextPrinterParameterized(windowId, fontId, gText_PokedexNo, x, y, 0);
-        DexScreen_PrintNum4LeadingZeroes(windowId, fontId, dexNum, xNum, y, 0);
-    }
-    else
-    {
-        dexNum = NationalToKantoDexNum(SpeciesToNationalDexNum(species));
-        DexScreen_AddTextPrinterParameterized(windowId, fontId, gText_PokedexNo, x, y, 0);
-        DexScreen_PrintNum3LeadingZeroes(windowId, fontId, dexNum, xNum, y, 0);
-    }
+    dexNum = SpeciesToNationalDexNum(species);
+    DexScreen_AddTextPrinterParameterized(windowId, fontId, gText_PokedexNo, x, y, 0);
+    DexScreen_PrintNum4LeadingZeroes(windowId, fontId, dexNum, xNum, y, 0);
 }
 
 s8 DexScreen_GetSetPokedexFlag(u16 nationalDexNo, u8 caseId, bool8 indexIsSpecies)
@@ -2317,23 +2186,10 @@ static u16 DexScreen_GetDexCount(u8 caseId, bool8 whichDex)
     u16 count = 0;
     u16 i;
 
-    switch (whichDex)
+    for (i = 0; i < NATIONAL_DEX_COUNT; i++)
     {
-    case 0: // Kanto
-        for (i = KANTO_DEX_START; i < KANTO_DEX_END; i++)
-        {
-            if (DexScreen_GetSetPokedexFlag(KantoToNationalDexNum(i), caseId, FALSE))
-                count++;
-        }
-        break;
-    case 1: // National
-        for (i = 0; i < NATIONAL_DEX_COUNT; i++)
-        {
-            if (DexScreen_GetSetPokedexFlag(i + 1, caseId, FALSE))
-                count++;
-
-        }
-        break;
+        if (DexScreen_GetSetPokedexFlag(i + 1, caseId, FALSE))
+            count++;
     }
     return count;
 }
@@ -2548,10 +2404,7 @@ bool8 DexScreen_TurnCategoryPage_BgEffect(u8 page)
 static bool8 DexScreen_FlipCategoryPageInDirection(u8 direction)
 {
     u16 color;
-    if (IsNationalPokedexEnabled())
-        color = sNationalDexPalette[7];
-    else
-        color = sKantoDexPalette[7];
+    color = sNationalDexPalette[7];
     switch (sPokedexScreenData->data[0])
     {
     case 0:
@@ -2744,7 +2597,7 @@ void DexScreen_PrintMonCategory(u8 windowId, u16 species, u8 x, u8 y)
 
 void DexScreen_PrintMonHeight(u8 windowId, u16 species, u8 x, u8 y)
 {
-    u8* heightString;
+    u8 *heightString;
 
     if (DexScreen_GetSetPokedexFlag(SpeciesToNationalDexNum(species), FLAG_GET_CAUGHT, FALSE))
         heightString = ConvertMonHeightToString(gSpeciesInfo[species].height);
@@ -2757,7 +2610,7 @@ void DexScreen_PrintMonHeight(u8 windowId, u16 species, u8 x, u8 y)
     Free(heightString);
 }
 
-u8* ConvertMonHeightToString(u32 height)
+u8 *ConvertMonHeightToString(u32 height)
 {
     if (UNITS == UNITS_IMPERIAL)
         return ConvertMonHeightToImperialString(height);
@@ -2765,10 +2618,10 @@ u8* ConvertMonHeightToString(u32 height)
         return ConvertMonHeightToMetricString(height);
 }
 
-static u8* ConvertMonHeightToImperialString(u32 height)
+static u8 *ConvertMonHeightToImperialString(u32 height)
 {
     u32 inches, feet, index = 0;
-    u8* heightString = Alloc(WEIGHT_HEIGHT_STR_MEM);
+    u8 *heightString = Alloc(WEIGHT_HEIGHT_STR_MEM);
 
     inches = (height * 10000) / CM_PER_INCH_FACTOR;
     if (inches % 10 >= 5)
@@ -2799,19 +2652,19 @@ static u8* ConvertMonHeightToImperialString(u32 height)
     return heightString;
 }
 
-static u8* ConvertMonHeightToMetricString(u32 height)
+static u8 *ConvertMonHeightToMetricString(u32 height)
 {
     u32 index = 0;
-    u8* heightString = ConvertMeasurementToMetricString(height, &index);
+    u8 *heightString = ConvertMeasurementToMetricString(height, &index);
 
     heightString[index++] = CHAR_m;
     heightString[index++] = EOS;
     return heightString;
 }
 
-static u8* ConvertMeasurementToMetricString(u32 num, u32* index)
+static u8 *ConvertMeasurementToMetricString(u32 num, u32 *index)
 {
-    u8* string = Alloc(WEIGHT_HEIGHT_STR_MEM);
+    u8 *string = Alloc(WEIGHT_HEIGHT_STR_MEM);
     bool32 outputted = FALSE;
     u32 result;
 
@@ -2849,7 +2702,7 @@ static u8* ConvertMeasurementToMetricString(u32 num, u32* index)
 
 void DexScreen_PrintMonWeight(u8 windowId, u16 species, u8 x, u8 y)
 {
-    u8* weightString;
+    u8 *weightString;
 
     if (DexScreen_GetSetPokedexFlag(SpeciesToNationalDexNum(species), FLAG_GET_CAUGHT, FALSE))
         weightString = ConvertMonWeightToString(gSpeciesInfo[species].weight);
@@ -2862,7 +2715,7 @@ void DexScreen_PrintMonWeight(u8 windowId, u16 species, u8 x, u8 y)
     Free(weightString);
 }
 
-u8* ConvertMonWeightToString(u32 weight)
+u8 *ConvertMonWeightToString(u32 weight)
 {
     if (UNITS == UNITS_IMPERIAL)
         return ConvertMonWeightToImperialString(weight);
@@ -2870,9 +2723,9 @@ u8* ConvertMonWeightToString(u32 weight)
         return ConvertMonWeightToMetricString(weight);
 }
 
-static u8* ConvertMonWeightToImperialString(u32 weight)
+static u8 *ConvertMonWeightToImperialString(u32 weight)
 {
-    u8* weightString = Alloc(WEIGHT_HEIGHT_STR_MEM);
+    u8 *weightString = Alloc(WEIGHT_HEIGHT_STR_MEM);
     bool32 output = FALSE;
     u32 index = 0, lbs = (weight * 100000) / DECAGRAMS_IN_POUND;
 
@@ -2926,10 +2779,10 @@ static u8* ConvertMonWeightToImperialString(u32 weight)
     return weightString;
 }
 
-static u8* ConvertMonWeightToMetricString(u32 weight)
+static u8 *ConvertMonWeightToMetricString(u32 weight)
 {
     u32 index = 0;
-    u8* weightString = ConvertMeasurementToMetricString(weight, &index);
+    u8 *weightString = ConvertMeasurementToMetricString(weight, &index);
 
     weightString[index++] = CHAR_k;
     weightString[index++] = CHAR_g;
@@ -2938,7 +2791,7 @@ static u8* ConvertMonWeightToMetricString(u32 weight)
     return weightString;
 }
 
-static u8* GetUnknownMonHeightString(void)
+static u8 *GetUnknownMonHeightString(void)
 {
     if (UNITS == UNITS_IMPERIAL)
         return ReplaceDecimalSeparator(gText_UnkHeight);
@@ -2946,7 +2799,7 @@ static u8* GetUnknownMonHeightString(void)
         return ReplaceDecimalSeparator(gText_UnkHeightMetric);
 }
 
-static u8* GetUnknownMonWeightString(void)
+static u8 *GetUnknownMonWeightString(void)
 {
     if (UNITS == UNITS_IMPERIAL)
         return ReplaceDecimalSeparator(gText_UnkWeight);
@@ -2954,11 +2807,11 @@ static u8* GetUnknownMonWeightString(void)
         return ReplaceDecimalSeparator(gText_UnkWeightMetric);
 }
 
-static u8* ReplaceDecimalSeparator(const u8* originalString)
+static u8 *ReplaceDecimalSeparator(const u8 *originalString)
 {
     bool32 replaced = FALSE;
     u32 length = StringLength(originalString), i;
-    u8* modifiedString = Alloc(WEIGHT_HEIGHT_STR_MEM);
+    u8 *modifiedString = Alloc(WEIGHT_HEIGHT_STR_MEM);
 
     for (i = 0; i < length; i++)
     {
@@ -3015,8 +2868,8 @@ void DexScreen_DrawMonFootprint(u8 windowId, u16 species, u8 x, u8 y)
 {
     u16 i, j, tileIdx;
     u8 footprintPixel, footprintTile;
-    u8 * buffer;
-    u8 * footprint;
+    u8 *buffer;
+    u8 *footprint;
 
     if (!(DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, TRUE)))
         return;
@@ -3271,7 +3124,6 @@ u8 DexScreen_DrawMonAreaPage(void)
 
     return 1;
 }
-
 
 u8 DexScreen_DestroyAreaScreenResources(void)
 {
@@ -3574,7 +3426,7 @@ static void Task_DexScreen_RegisterMonToPokedex(u8 taskId)
     }
 }
 
-void DexScreen_PrintStringWithAlignment(const u8 * str, s32 mode)
+void DexScreen_PrintStringWithAlignment(const u8 *str, s32 mode)
 {
     u32 x;
 
