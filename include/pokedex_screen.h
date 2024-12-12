@@ -10,14 +10,13 @@
 #define DEX_CATEGORY_ROUGH_TERRAIN      6
 #define DEX_CATEGORY_URBAN              7
 #define DEX_CATEGORY_RARE               8
-#define DEX_ORDER_NUMERICAL_KANTO       9
+#define DEX_ORDER_NUMERICAL             9
 #define DEX_ORDER_ATOZ                  10
 #define DEX_ORDER_TYPE                  11
 #define DEX_ORDER_LIGHTEST              12
 #define DEX_ORDER_SMALLEST              13
-#define DEX_ORDER_NUMERICAL_NATIONAL    14
 
-#define DEX_ORDER_START DEX_ORDER_NUMERICAL_KANTO
+#define DEX_ORDER_START DEX_ORDER_NUMERICAL
 
 #include "pokedex.h"
 
