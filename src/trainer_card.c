@@ -113,7 +113,6 @@ static u16 GetCaughtMonsCount(void);
 static void PrintPokedexOnCard(void);
 static void PrintTimeOnCard(void);
 static void LoadMonIconGfx(void);
-static void LoadStickerGfx(void);
 static void DrawTrainerCardWindow(u8 windowId);
 static bool8 SetTrainerCardBgsAndPals(void);
 static void DrawCardScreenBackground(const u16 *ptr);
@@ -135,7 +134,6 @@ static void InitTrainerCardData(void);
 static u8 GetCardType(void);
 static void CreateTrainerCardTrainerPic(void);
 
-static const u32 sTrainerCardStickers_Gfx[] = INCBIN_U32("graphics/trainer_card/stickers.4bpp.lz");
 static const u32 sKantoTrainerCardFront_Tilemap[] = INCBIN_U32("graphics/trainer_card/front.bin.lz");
 static const u32 sKantoTrainerCardBack_Tilemap[] = INCBIN_U32("graphics/trainer_card/back.bin.lz");
 static const u32 sKantoTrainerCardFrontLink_Tilemap[] = INCBIN_U32("graphics/trainer_card/front_link.bin.lz");
@@ -147,10 +145,6 @@ static const u16 sKantoTrainerCardSilver_Pal[] = INCBIN_U16("graphics/trainer_ca
 static const u16 sKantoTrainerCardGold_Pal[] = INCBIN_U16("graphics/trainer_card/gold.gbapal");
 static const u16 sKantoTrainerCardFemaleBg_Pal[] = INCBIN_U16("graphics/trainer_card/female_bg.gbapal");
 static const u16 sTrainerCardStar_Pal[] = INCBIN_U16("graphics/trainer_card/star.gbapal");
-static const u16 sTrainerCardStickerPal1[] = INCBIN_U16("graphics/trainer_card/stickers1.gbapal");
-static const u16 sTrainerCardStickerPal2[] = INCBIN_U16("graphics/trainer_card/stickers2.gbapal");
-static const u16 sTrainerCardStickerPal3[] = INCBIN_U16("graphics/trainer_card/stickers3.gbapal");
-static const u16 sTrainerCardStickerPal4[] = INCBIN_U16("graphics/trainer_card/stickers4.gbapal");
 static const u32 sHoennTrainerCardBadges_Gfx[] = INCBIN_U32("graphics/trainer_card/hoenn_badges.4bpp.lz");
 static const u32 sKantoTrainerCardBadges_Gfx[] = INCBIN_U32("graphics/trainer_card/kanto_badges.4bpp.lz");
 static const u16 sKantoTrainerCardBadges_Pal[] = INCBIN_U16("graphics/trainer_card/kanto_badges.gbapal");
@@ -283,7 +277,6 @@ static const u8 sTrainerCardTimeMinutesYPositions[] = {0x58, 0x59};
 static const u8 *const sLinkTrainerCardRecordStrings[] = {gText_LinkBattles, gText_LinkCableBattles};
 static const u8 sPokemonIconPalSlots[] = {5, 6, 7, 8, 9, 10};
 static const u8 sPokemonIconXOffsets[] = {0, 4, 8, 12, 16, 20};
-static const u8 sStickerPalSlots[] = {11, 12, 13, 14};
 static const u8 sStarYOffsets[] = {7, 6, 0, 0};
 
 static const struct TrainerCard sLinkPlayerTrainerCardTemplate1 =
@@ -535,16 +528,10 @@ static bool8 LoadCardGfx(void)
         LZ77UnCompWram(sKantoTrainerCardBack_Tilemap, sTrainerCardDataPtr->backTilemap);
         break;
     case 2:
-        LZ77UnCompWram(sKantoTrainerCardFrontLink_Tilemap, sTrainerCardDataPtr->frontTilemap);
-        break;
-    case 3:
         LZ77UnCompWram(sKantoTrainerCardBadges_Gfx, sTrainerCardDataPtr->badgeTiles);
         break;
-    case 4:
+    case 3:
         LZ77UnCompWram(gKantoTrainerCard_Gfx, &sTrainerCardDataPtr->cardTiles);
-        break;
-    case 5:
-        LZ77UnCompWram(sTrainerCardStickers_Gfx, sTrainerCardDataPtr->stickerTiles);
         break;
     default:
         sTrainerCardDataPtr->gfxLoadState = 0;
@@ -596,18 +583,14 @@ static void CB2_InitTrainerCard(void)
             gMain.state++;
         break;
     case 9:
-        LoadStickerGfx();
-        gMain.state++;
-        break;
-    case 10:
         HandleGpuRegs();
         gMain.state++;
         break;
-    case 11:
+    case 10:
         if (SetTrainerCardBgsAndPals() == TRUE)
             gMain.state++;
         break;
-    case 13:
+    case 11:
         gMain.state++;
         break;
     default:
@@ -1068,15 +1051,6 @@ static void LoadMonIconGfx(void)
     {
         LoadBgTiles(3, GetMonIconTiles(sTrainerCardDataPtr->trainerCard.monSpecies[i], 0), 512, 16 * i + 32);
     }
-}
-
-static void LoadStickerGfx(void)
-{
-    LoadPalette(sTrainerCardStickerPal1, BG_PLTT_ID(11), sizeof(sTrainerCardStickerPal1));
-    LoadPalette(sTrainerCardStickerPal2, BG_PLTT_ID(12), sizeof(sTrainerCardStickerPal2));
-    LoadPalette(sTrainerCardStickerPal3, BG_PLTT_ID(13), sizeof(sTrainerCardStickerPal3));
-    LoadPalette(sTrainerCardStickerPal4, BG_PLTT_ID(14), sizeof(sTrainerCardStickerPal4));
-    LoadBgTiles(3, sTrainerCardDataPtr->stickerTiles, 1024, 128);
 }
 
 static void DrawTrainerCardWindow(u8 windowId)
