@@ -1039,6 +1039,7 @@ extern const u8 gText_NickHatchPrompt[];
 // trainer card
 extern const u8 gText_WaitingTrainerFinishReading[];
 extern const u8 gText_TrainerCardName[];
+extern const u8 gText_TrainerCardBackName[];
 extern const u8 gText_TrainerCardIDNo[];
 extern const u8 gText_TrainerCardMoney[];
 extern const u8 gText_TrainerCardYen[];
