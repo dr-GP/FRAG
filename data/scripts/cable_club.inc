@@ -676,7 +676,6 @@ CableClub_EventScript_ReadTrainerCard::
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	msgbox Text_LookedAtPlayersTrainerCard
 	fadescreen FADE_TO_BLACK
-	special Script_ShowLinkTrainerCard
 	waitstate
 	end
 
@@ -684,7 +683,6 @@ CableClub_EventScript_ReadTrainerCardColored::
 	textcolor NPC_TEXT_COLOR_NEUTRAL
 	msgbox Text_LookedAtPlayersTrainerCardColored
 	fadescreen FADE_TO_BLACK
-	special Script_ShowLinkTrainerCard
 	waitstate
 	end
 

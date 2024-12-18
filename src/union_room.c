@@ -1455,18 +1455,8 @@ static void Task_ExchangeCards(u8 taskId)
 
 static void CB2_ShowCard(void)
 {
-    switch (gMain.state)
-    {
-    case 0:
-        CreateTask(Task_ExchangeCards, 5);
-        gMain.state++;
-        break;
-    case 1:
-        if (!FuncIsActiveTask(Task_ExchangeCards))
-            ShowTrainerCardInLink(GetMultiplayerId() ^ 1, CB2_ReturnToField);
-        break;
-    }
-
+    CreateTask(Task_ExchangeCards, 5);
+    gMain.state++;
     RunTasks();
     RunTextPrinters();
     AnimateSprites();

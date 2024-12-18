@@ -122,14 +122,14 @@ static const u8 sText_MenuDebug[] = _("DEBUG");
 static const struct MenuAction sStartMenuActionTable[] = {
     [STARTMENU_POKEDEX] = {gText_MenuPokedex, {.u8_void = StartMenuPokedexCallback}},
     [STARTMENU_POKEMON] = {gText_MenuPokemon, {.u8_void = StartMenuPokemonCallback}},
-    [STARTMENU_BAG]     = {gText_MenuBag,     {.u8_void = StartMenuBagCallback}},
-    [STARTMENU_PLAYER]  = {gText_MenuPlayer,  {.u8_void = StartMenuPlayerCallback}},
-    [STARTMENU_SAVE]    = {gText_MenuSave,    {.u8_void = StartMenuSaveCallback}},
-    [STARTMENU_OPTION]  = {gText_MenuOption,  {.u8_void = StartMenuOptionCallback}},
-    [STARTMENU_EXIT]    = {gText_MenuExit,    {.u8_void = StartMenuExitCallback}},
-    [STARTMENU_RETIRE]  = {gText_MenuRetire,  {.u8_void = StartMenuSafariZoneRetireCallback}},
-    [STARTMENU_PLAYER2] = {gText_MenuPlayer,  {.u8_void = StartMenuLinkPlayerCallback}},
-    [STARTMENU_DEBUG]   = {sText_MenuDebug,   {.u8_void = StartMenuDebugCallback}},
+    [STARTMENU_BAG] = {gText_MenuBag, {.u8_void = StartMenuBagCallback}},
+    [STARTMENU_PLAYER] = {gText_MenuPlayer, {.u8_void = StartMenuPlayerCallback}},
+    [STARTMENU_SAVE] = {gText_MenuSave, {.u8_void = StartMenuSaveCallback}},
+    [STARTMENU_OPTION] = {gText_MenuOption, {.u8_void = StartMenuOptionCallback}},
+    [STARTMENU_EXIT] = {gText_MenuExit, {.u8_void = StartMenuExitCallback}},
+    [STARTMENU_RETIRE] = {gText_MenuRetire, {.u8_void = StartMenuSafariZoneRetireCallback}},
+    [STARTMENU_PLAYER2] = {gText_MenuPlayer, {.u8_void = StartMenuLinkPlayerCallback}},
+    [STARTMENU_DEBUG] = {sText_MenuDebug, {.u8_void = StartMenuDebugCallback}},
 };
 
 static const struct WindowTemplate sTimeWindowTemplate = {
@@ -139,8 +139,7 @@ static const struct WindowTemplate sTimeWindowTemplate = {
     .width = 10,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x1A8
-};
+    .baseBlock = 0x1A8};
 
 static const struct WindowTemplate sTimeSafariWindowTemplate = {
     .bg = 0,
@@ -149,8 +148,7 @@ static const struct WindowTemplate sTimeSafariWindowTemplate = {
     .width = 10,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x198
-};
+    .baseBlock = 0x198};
 
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
     .bg = 0,
@@ -159,8 +157,7 @@ static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
     .width = 10,
     .height = 4,
     .paletteNum = 15,
-    .baseBlock = 0x008
-};
+    .baseBlock = 0x008};
 
 static const u8 *const sStartMenuDescPointers[] = {
     gStartMenuDesc_Pokedex,
@@ -176,28 +173,23 @@ static const u8 *const sStartMenuDescPointers[] = {
 };
 
 static const struct BgTemplate sBGTemplates_AfterLinkSaveMessage[] = {
-    {
-        .bg = 0,
-        .charBaseIndex = 2,
-        .mapBaseIndex = 31,
-        .screenSize = 0,
-        .paletteMode = 0,
-        .priority = 0,
-        .baseTile = 0x000
-    }
-};
+    {.bg = 0,
+     .charBaseIndex = 2,
+     .mapBaseIndex = 31,
+     .screenSize = 0,
+     .paletteMode = 0,
+     .priority = 0,
+     .baseTile = 0x000}};
 
 static const struct WindowTemplate sWindowTemplates_AfterLinkSaveMessage[] = {
-    {
-        .bg = 0,
-        .tilemapLeft = 2,
-        .tilemapTop = 15,
-        .width = 26,
-        .height = 4,
-        .paletteNum = 15,
-        .baseBlock = 0x198
-    }, DUMMY_WIN_TEMPLATE
-};
+    {.bg = 0,
+     .tilemapLeft = 2,
+     .tilemapTop = 15,
+     .width = 26,
+     .height = 4,
+     .paletteNum = 15,
+     .baseBlock = 0x198},
+    DUMMY_WIN_TEMPLATE};
 
 static const struct WindowTemplate sSaveStatsWindowTemplate = {
     .bg = 0,
@@ -206,12 +198,11 @@ static const struct WindowTemplate sSaveStatsWindowTemplate = {
     .width = 14,
     .height = 9,
     .paletteNum = 13,
-    .baseBlock = 0x008
-};
+    .baseBlock = 0x008};
 
-static ALIGNED(2) const u8 sTextColor_StatName[] = { 1, 2, 3 };
-static ALIGNED(2) const u8 sTextColor_StatValue[] = { 1, 4, 5 };
-static ALIGNED(2) const u8 sTextColor_LocationHeader[] = { 1, 6, 7 };
+static ALIGNED(2) const u8 sTextColor_StatName[] = {1, 2, 3};
+static ALIGNED(2) const u8 sTextColor_StatValue[] = {1, 4, 5};
+static ALIGNED(2) const u8 sTextColor_LocationHeader[] = {1, 6, 7};
 
 static void SetUpStartMenu(void)
 {
@@ -335,7 +326,7 @@ static void Task_UpdateTimeWindow(u8 taskId)
     ConvertIntToDecimalStringN(gStringVar2, GetSeasonDay(), STR_CONV_MODE_RIGHT_ALIGN, 2);
     StringExpandPlaceholders(gStringVar4, gText_MenuDay);
     AddTextPrinterParameterized(sTimeWindowId, FONT_NORMAL, gStringVar4, 4, 18, 0xFF, NULL);
-    
+
     CopyWindowToVram(sTimeWindowId, COPYWIN_GFX);
     gTasks[taskId].tCounter = 0;
 }
@@ -346,7 +337,7 @@ static void DrawTimeWindow(void)
         sTimeWindowId = AddWindow(&sTimeSafariWindowTemplate);
     else
         sTimeWindowId = AddWindow(&sTimeWindowTemplate);
-    
+
     PutWindowTilemap(sTimeWindowId);
     DrawStdWindowFrame(sTimeWindowId, FALSE);
     ConvertIntToDecimalStringN(gStringVar1, GetCurrentHour(), STR_CONV_MODE_RIGHT_ALIGN, 3);
@@ -372,7 +363,7 @@ static void DestroyTimeWindow(void)
     u8 taskId = FindTaskIdByFunc(Task_UpdateTimeWindow);
     if (taskId != TASK_NONE)
         DestroyTask(taskId);
-    
+
     if (sTimeWindowId == WINDOW_NONE)
         return;
 
@@ -555,10 +546,7 @@ static bool8 StartCB_HandleInput(void)
 
 static void StartMenu_FadeScreenIfLeavingOverworld(void)
 {
-    if (sStartMenuCallback != StartMenuSaveCallback
-     && sStartMenuCallback != StartMenuExitCallback
-     && sStartMenuCallback != StartMenuDebugCallback
-     && sStartMenuCallback != StartMenuSafariZoneRetireCallback)
+    if (sStartMenuCallback != StartMenuSaveCallback && sStartMenuCallback != StartMenuExitCallback && sStartMenuCallback != StartMenuDebugCallback && sStartMenuCallback != StartMenuSafariZoneRetireCallback)
     {
         StopPokemonLeagueLightingEffectTask();
         FadeScreen(FADE_TO_BLACK, 0);
@@ -694,13 +682,6 @@ static void HideStartMenuDebug(void)
 
 static bool8 StartMenuLinkPlayerCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
-        PlayRainStoppingSoundEffect();
-        CleanupOverworldWindowsAndTilemaps();
-        ShowTrainerCardInLink(gLocalLinkPlayerId, CB2_ReturnToFieldWithOpenMenu);
-        return TRUE;
-    }
     return FALSE;
 }
 

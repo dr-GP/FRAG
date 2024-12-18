@@ -953,11 +953,6 @@ void EnterColosseumPlayerSpot(void)
         CreateTask_EnterCableClubSeat(Task_StartWiredCableClubBattle);
 }
 
-void Script_ShowLinkTrainerCard(void)
-{
-    ShowTrainerCardInLink(gSpecialVar_0x8006, CB2_ReturnToFieldContinueScriptPlayMapMusic);
-}
-
 bool32 GetSeeingLinkPlayerCardMsg(u8 linkPlayerIndex)
 {
     u8 numStars;
